@@ -15,6 +15,6 @@ FetchContent_MakeAvailable(SFML)
 file(GLOB_RECURSE SOURCES "src/**/*.cpp")
 file(GLOB_RECURSE HEADERS "include/**/*.hpp")
 
-add_executable(main ${SOURCES} ${HEADERS})
+add_executable(main src/main.cpp ${SOURCES} ${HEADERS})
 target_compile_features(main PRIVATE cxx_std_17)
 target_link_libraries(main PRIVATE SFML::Graphics)
