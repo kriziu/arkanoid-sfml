@@ -3,7 +3,6 @@
 
 Core::Core(unsigned int windowWidth, unsigned int windowHeight, std::string title) {
     window_.create(sf::VideoMode({windowWidth, windowHeight}), title);
-    window_.setFramerateLimit(60);
 }
 
 Core::~Core() {}

@@ -22,11 +22,6 @@ public:
     template<typename T>
     T* GetController();
     
-    void SetPosition(float x, float y) { position_ = {x, y}; }
-    const sf::Vector2f& GetPosition() const { return position_; }
-    void SetSize(float width, float height) { size_ = {width, height}; }
-    const sf::Vector2f& GetSize() const { return size_; }
-    
 protected:
     std::vector<Controller*> controllers_;
     Scene* scene_;
