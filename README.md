@@ -1,67 +1,41 @@
 # Arkanoid SFML
 
-A simple Arkanoid game implementation using SFML 3.
+A simple Arkanoid game implementation using SFML 3.0.1.
 
-## Architecture
+## Project Structure
 
-The game is built using a component-based architecture with the following main concepts:
+- `include/`: Header files
 
-1. **Core** - Main game entry point that manages the game loop and scenes
-2. **Scene** - Represents a game screen (e.g., Menu, Gameplay)
-3. **Actor** - Game objects like Ball, Paddle, and Bricks
-4. **Controller** - Components that define behavior for Actors or Scenes
-5. **MessageBus** - Communication system between components
+  - `Core/`: Core game management classes
+  - `Actors/`: Game objects like Paddle, Ball, Brick
+  - `Controllers/`: Logic components attached to actors
+  - `Scenes/`: Game scenes like menu, gameplay
+  - `Utils/`: Utility classes like MessageBus
+
+- `src/`: Implementation files with the same structure as include
 
 ## Building the Project
 
-### Prerequisites
+### Requirements
 
+- CMake 3.16 or higher
 - C++17 compatible compiler
-- CMake 3.14 or higher
-- SFML 3.x
 
-### Build Instructions
+### Build steps
 
 ```bash
 mkdir build
 cd build
 cmake ..
-make
+cmake --build .
 ```
 
-## Game Controls
+## Architecture
 
-- Left Arrow: Move paddle left
-- Right Arrow: Move paddle right
-- Escape: Pause game
+The project follows an entity-component pattern:
 
-## Project Structure
-
-```
-src/
-├── core/           # Core architecture components
-│   ├── Actor.hpp
-│   ├── Controller.hpp
-│   ├── Core.hpp
-│   ├── Message.hpp
-│   ├── MessageBus.hpp
-│   ├── MessageType.hpp
-│   └── Scene.hpp
-├── actors/         # Game objects
-│   ├── Ball.hpp
-│   ├── Brick.hpp
-│   └── Paddle.hpp
-├── controllers/    # Behavior components
-│   ├── BallController.hpp
-│   └── PaddleController.hpp
-└── scenes/         # Game screens
-    └── GameplayScene.hpp
-```
-
-## Future Improvements
-
-- Add menu scene
-- Implement power-ups
-- Add sound effects and music
-- Create level editor
-- Add high score system
+- **Core**: Main game controller managing the game loop and scenes
+- **Scene**: Container for actors and scene-specific controllers
+- **Actor**: Game entity with position, size and visual representation
+- **Controller**: Behavior logic attached to actors or scenes
+- **MessageBus**: Communication system between components

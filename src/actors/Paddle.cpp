@@ -1,18 +1,17 @@
-#include "Paddle.hpp"
+#include "../../include/Actors/Paddle.hpp"
 
-namespace arkanoid {
-
-Paddle::Paddle(Scene* scene)
-    : Actor("Paddle", scene), m_speed(400.f) {
-    setSize(100.f, 20.f);
+Paddle::Paddle() {
+    sf::RectangleShape rectangle(sf::Vector2f(100, 20));
+    rectangle.setFillColor(sf::Color::White);
 }
 
-void Paddle::setSpeed(float speed) {
-    m_speed = speed;
+Paddle::~Paddle() {}
+
+void Paddle::Initialize() {
+    shape_.setSize(sf::Vector2f(100, 20));
+    shape_.setFillColor(sf::Color::White);
 }
 
-float Paddle::getSpeed() const {
-    return m_speed;
+void Paddle::Draw(sf::RenderWindow& window) {
+    window.draw(shape_);
 }
-
-} // namespace arkanoid 

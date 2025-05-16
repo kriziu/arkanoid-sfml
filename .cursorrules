@@ -1,6 +1,9 @@
 ## Overview of classes and relationships:
 
-0. USE SFML 3!
+0. RULES
+
+- USE SFML 3.0.1
+- DONT WRITE ANY COMMENTS
 
 1. Core
 
@@ -29,7 +32,7 @@
 - Can be attached to either an Actor or a Scene
 - Can subscribe and send messages via MessageBus
 
-5. MessageBus (singleton or static class)
+5. MessageBus (static class)
 
 - Handles communication between components
 - Supports publishing and subscribing to messages

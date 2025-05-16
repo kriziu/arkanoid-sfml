@@ -1,92 +1,61 @@
-#include "Core.hpp"
-#include <iostream>
+#include "../../include/Core/Core.hpp"
+#include "../../include/Scenes/Scene.hpp"
 
-namespace arkanoid {
-
-Core::Core() : m_deltaTime(0.f) {
+Core::Core(unsigned int windowWidth, unsigned int windowHeight, std::string title) {
+    window_.create(sf::VideoMode({windowWidth, windowHeight}), title);
+    window_.setFramerateLimit(60);
 }
 
-Core::~Core() {
-    if (m_window.isOpen()) {
-        m_window.close();
-    }
-}
+Core::~Core() {}
 
-void Core::init(unsigned int width, unsigned int height, const std::string& title) {
-    m_window.create(sf::VideoMode(width, height), title);
-    m_window.setFramerateLimit(60);
-}
-
-void Core::run() {
-    if (!m_currentScene) {
-        std::cerr << "No active scene to run!" << std::endl;
-        return;
-    }
-
-    m_clock.restart();
-    
-    while (m_window.isOpen()) {
-        m_deltaTime = m_clock.restart().asSeconds();
+void Core::Run() {
+    while (window_.isOpen()) {
+        ProcessEvents();
         
-        processEvents();
-        update(m_deltaTime);
-        render();
+        float deltaTime = clock_.restart().asSeconds();
+        Update(deltaTime);
+        
+        Render();
     }
 }
 
-void Core::processEvents() {
-    sf::Event event;
-    while (m_window.pollEvent(event)) {
-        if (event.type == sf::Event::Closed) {
-            m_window.close();
+void Core::ProcessEvents() {
+    while (const std::optional event = window_.pollEvent()) {
+        if (event->is<sf::Event::Closed>()) {
+            window_.close();
+        }
+
+        // for (auto& scene : scenes_) {
+        //     scene->HandleEvent(event);
+        // }
+    }
+}
+
+void Core::Update(float deltaTime) {
+    for (auto& scene : scenes_) {
+        scene->Update(deltaTime);
+    }
+}
+
+void Core::Render() {
+    window_.clear(sf::Color::Black);
+    
+    for (auto& scene : scenes_) {
+        scene->Draw(window_);
+    }
+    
+    window_.display();
+}
+
+void Core::AddScene(Scene* scene) {
+    scenes_.push_back(scene);
+}
+
+void Core::RemoveScene(Scene* sceneToRemove) {
+    for (auto it = scenes_.begin(); it != scenes_.end(); ++it) {
+        if (*it == sceneToRemove) {
+            scenes_.erase(it);
+            break;
         }
     }
-}
-
-void Core::update(float dt) {
-    if (m_currentScene) {
-        m_currentScene->update(dt);
-    }
-}
-
-void Core::render() {
-    m_window.clear(sf::Color::Black);
-    
-    if (m_currentScene) {
-        m_currentScene->render(m_window);
-    }
-    
-    m_window.display();
-}
-
-void Core::addScene(std::shared_ptr<Scene> scene) {
-    m_scenes[scene->getName()] = scene;
-    
-    if (!m_currentScene) {
-        m_currentScene = scene;
-        m_currentScene->init();
-    }
-}
-
-void Core::switchScene(const std::string& name) {
-    auto it = m_scenes.find(name);
-    if (it != m_scenes.end()) {
-        m_currentScene = it->second;
-        m_currentScene->init();
-    }
-}
-
-std::shared_ptr<Scene> Core::getScene(const std::string& name) {
-    auto it = m_scenes.find(name);
-    if (it != m_scenes.end()) {
-        return it->second;
-    }
-    
-    return nullptr;
-}
-
-std::shared_ptr<Scene> Core::getCurrentScene() const {
-    return m_currentScene;
-}
-
-} // namespace arkanoid 
+} 
