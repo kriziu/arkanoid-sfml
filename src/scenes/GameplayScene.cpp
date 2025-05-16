@@ -8,7 +8,7 @@ GameplayScene::~GameplayScene() {}
 void GameplayScene::Initialize() {
     Paddle* paddle = new Paddle();
     paddle_ = paddle;
-    paddle_->SetPosition(350, 550);
+    // paddle_->SetPosition(350, 550);
     AddActor(paddle);
     
     Scene::Initialize();
