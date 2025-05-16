@@ -1,0 +1,60 @@
+## Overview of classes and relationships:
+
+0. USE SFML 3!
+
+1. Core
+
+- Main game entry point
+- Initializes the game loop
+- Manages active Scene
+- Responsible for switching between scenes (can have multiple scenes at once)
+
+2. Scene
+
+- Represents a game screen (e.g., Menu, Gameplay)
+- Holds a list of Actors
+- Can have its own Scene-level Controllers
+- Can send and receive messages via MessageBus
+
+3. Actor
+
+- Represents a game object (Ball, Paddle, Brick, etc.)
+- Has position, size, sprite, etc.
+- Can contain multiple Controllers (composition)
+- Each Controller handles specific behavior
+
+4. Controller (abstract base class)
+
+- Defines logic and behavior
+- Can be attached to either an Actor or a Scene
+- Can subscribe and send messages via MessageBus
+
+5. MessageBus (singleton or static class)
+
+- Handles communication between components
+- Supports publishing and subscribing to messages
+- Messages include a type and optional payload
+- Used for decoupling (e.g., Brick destroyed → Score updated)
+
+6. Message
+
+- Contains:
+  - MessageType (enum)
+  - Sender (void\* or base class pointer)
+  - Payload (std::any or variant-like structure)
+
+7. MessageType (enum)
+
+- Examples: BrickDestroyed, BallLost, LifeLost, GameOver, LevelComplete
+
+## Relationships:
+
+- Core → manages the active Scene
+- Scene → holds a list of Actors and Controllers
+- Actor → holds a list of Controllers
+- Controller → optional listener to MessageBus
+- Any component can send or receive messages through MessageBus
+
+## Example Controllers:
+
+- BallController, PaddleController, BrickController, SceneScoreController
