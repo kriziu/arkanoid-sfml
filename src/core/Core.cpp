@@ -1,8 +1,9 @@
 #include "../../include/Core/Core.hpp"
 #include "../../include/Scenes/Scene.hpp"
+#include "../../include/Utils/Constants.hpp"
 
 Core::Core(unsigned int windowWidth, unsigned int windowHeight, std::string title) {
-    window_.create(sf::VideoMode({windowWidth, windowHeight}), title);
+    window_.create(sf::VideoMode({windowWidth, windowHeight}), title, sf::Style::Titlebar | sf::Style::Close);
 }
 
 Core::~Core() {}
@@ -24,9 +25,9 @@ void Core::ProcessEvents() {
             window_.close();
         }
 
-        // for (auto& scene : scenes_) {
-        //     scene->HandleEvent(event);
-        // }
+        for (auto& scene : scenes_) {
+            scene->HandleEvent(*event);
+        }
     }
 }
 
