@@ -48,12 +48,14 @@ bool LevelLoader::LoadLevel(const std::string& filename, LevelData& levelData) {
 }
 
 bool LevelLoader::LoadBricksIntoScene(const LevelData& levelData, Scene* scene) {
+    sf::Vector2f brickSize = GetBrickSize(levelData);
+    
     for (const auto& brickData : levelData.bricks) {
         Brick* brick = new Brick(brickData.type);
         sf::Vector2f worldPos = GridToWorldPosition(brickData.position, levelData);
         
         brick->SetPosition(worldPos);
-        brick->SetSize(GetBrickSize(levelData));
+        brick->SetSize(brickSize);
         brick->AddController(new BrickController());
         
         scene->AddActor(brick);
@@ -63,8 +65,9 @@ bool LevelLoader::LoadBricksIntoScene(const LevelData& levelData, Scene* scene) 
 }
 
 sf::Vector2f LevelLoader::GridToWorldPosition(const GridPosition& gridPos, const LevelData& levelData) {
-    float x = levelData.padding.x + gridPos.x * (GetBrickSize(levelData).x + levelData.spacing);
-    float y = levelData.padding.y + gridPos.y * (GetBrickSize(levelData).y + levelData.spacing);
+    sf::Vector2f brickSize = GetBrickSize(levelData);
+    float x = levelData.padding.x + gridPos.x * (brickSize.x + levelData.spacing);
+    float y = levelData.padding.y + gridPos.y * (brickSize.y + levelData.spacing);
     return sf::Vector2f(x, y);
 }
 
