@@ -56,7 +56,7 @@ This creates:
 2. Define the header with your desired grid size and brick properties
 3. Design your brick layout using the character codes
 4. Test your level in the game
-5. Make sure levels directowy is in the same directory as binary file, otherwise levels won't load
+5. Make sure levels directory is in the same directory as binary file, otherwise levels won't load
 
 ## Level Loading
 
