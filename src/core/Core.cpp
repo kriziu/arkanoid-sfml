@@ -1,7 +1,7 @@
 #include "../../include/Core/Core.hpp"
 #include "../../include/Scenes/Scene.hpp"
 
-Core::Core(unsigned int windowWidth, unsigned int windowHeight, std::string title) {
+Core::Core(unsigned int windowWidth, unsigned int windowHeight, const std::string& title) {
     window_.create(sf::VideoMode({windowWidth, windowHeight}), title, sf::Style::Titlebar | sf::Style::Close);
 }
 

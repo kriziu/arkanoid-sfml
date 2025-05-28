@@ -7,7 +7,7 @@ class Scene;
 
 class Core {
 public:
-    Core(unsigned int windowWidth, unsigned int windowHeight, std::string title);
+    Core(unsigned int windowWidth, unsigned int windowHeight, const std::string& title);
     ~Core();
 
     void Run();

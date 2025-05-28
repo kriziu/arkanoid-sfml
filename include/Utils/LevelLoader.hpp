@@ -26,7 +26,7 @@ struct LevelData {
 
 class LevelLoader {
 public:
-    static bool LoadLevel(std::string filename, LevelData& levelData);
+    static bool LoadLevel(const std::string& filename, LevelData& levelData);
     static bool LoadBricksIntoScene(const LevelData& levelData, Scene* scene);
     
 private:

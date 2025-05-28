@@ -10,7 +10,7 @@ public:
     ~GameplayScene() override;
 
     void Initialize() override;
-    bool LoadLevel(std::string levelFile);
+    bool LoadLevel(const std::string& levelFile);
     
 private:
     Paddle* paddle_;

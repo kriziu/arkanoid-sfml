@@ -4,7 +4,7 @@
 #include <fstream>
 #include <iostream>
 
-bool LevelLoader::LoadLevel(std::string filename, LevelData& levelData) {
+bool LevelLoader::LoadLevel(const std::string& filename, LevelData& levelData) {
     std::ifstream file(filename);
     if (!file.is_open()) {
         std::cerr << "Failed to open level file: " << filename << std::endl;

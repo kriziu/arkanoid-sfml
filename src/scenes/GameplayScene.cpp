@@ -21,7 +21,7 @@ void GameplayScene::Initialize() {
     Scene::Initialize();
 }
 
-bool GameplayScene::LoadLevel(std::string levelFile) {
+bool GameplayScene::LoadLevel(const std::string& levelFile) {
     if (!LevelLoader::LoadLevel(levelFile, currentLevel_)) {
         return false;
     }
