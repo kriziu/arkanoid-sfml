@@ -2,25 +2,8 @@
 #include "../../include/Utils/MessageBus.hpp"
 
 Brick::Brick(BrickType type) : Actor(), type_(type), isDestroyed_(false) {
-    switch (type_) {
-        case BrickType::Normal:
-            maxHitPoints_ = 1;
-            baseColor_ = sf::Color(255, 95, 31);
-            break;
-        case BrickType::Strong:
-            maxHitPoints_ = 2;
-            baseColor_ = sf::Color(52, 152, 219);
-            break;
-        case BrickType::Unbreakable:
-            maxHitPoints_ = -1;
-            baseColor_ = sf::Color(149, 165, 166);
-            break;
-    }
-    hitPoints_ = maxHitPoints_;
-    
-    shape_.setSize(sf::Vector2f(60.0f, 25.0f));
-    shape_.setOutlineThickness(2.0f);
-    shape_.setOutlineColor(sf::Color(44, 62, 80));
+    SetType(type);
+    SetSize(sf::Vector2f(60.0f, 25.0f));
     UpdateVisualState();
 }
 
@@ -112,7 +95,6 @@ bool Brick::IsDestroyed() const {
 void Brick::UpdateVisualState() {
     if (isDestroyed_) {
         shape_.setFillColor(sf::Color::Transparent);
-        shape_.setOutlineColor(sf::Color::Transparent);
         return;
     }
     
@@ -122,12 +104,6 @@ void Brick::UpdateVisualState() {
         currentColor.r = static_cast<uint8_t>(currentColor.r * 0.7f);
         currentColor.g = static_cast<uint8_t>(currentColor.g * 0.7f);
         currentColor.b = static_cast<uint8_t>(currentColor.b * 0.7f);
-        
-        sf::Color outlineColor = sf::Color(44, 62, 80);
-        outlineColor.a = 180;
-        shape_.setOutlineColor(outlineColor);
-    } else {
-        shape_.setOutlineColor(sf::Color(44, 62, 80));
     }
     
     sf::Color brightColor = currentColor;
@@ -136,4 +112,4 @@ void Brick::UpdateVisualState() {
     brightColor.b = std::min(255, (int)(brightColor.b * 1.1f));
     
     shape_.setFillColor(brightColor);
-} 
+}

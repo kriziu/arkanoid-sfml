@@ -1,13 +1,14 @@
 #include "../../include/Actors/Paddle.hpp"
-#include "../../include/Utils/Constants.hpp"
 
-Paddle::Paddle(){}
+Paddle::Paddle() {}
 
 Paddle::~Paddle() {}
 
 void Paddle::Initialize() {
-    shape_.setSize(sf::Vector2f({paddleWidth, paddleHeight}));
+    shape_.setSize(sf::Vector2f({PADDLE_WIDTH, PADDLE_HEIGHT}));
     shape_.setFillColor(sf::Color::White);
+
+    Actor::Initialize();
 }
 
 void Paddle::Draw(sf::RenderWindow& window) {

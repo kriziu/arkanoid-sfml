@@ -8,9 +8,9 @@ class GameplayScene : public Scene {
 public:
     GameplayScene();
     ~GameplayScene() override;
-    
+
     void Initialize() override;
-    bool LoadLevel(const std::string& levelFile);
+    bool LoadLevel(std::string levelFile);
     
 private:
     Paddle* paddle_;

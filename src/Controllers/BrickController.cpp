@@ -5,20 +5,8 @@ BrickController::BrickController() : Controller() {}
 
 BrickController::~BrickController() {}
 
-void BrickController::Initialize() {
-    Controller::Initialize();
-}
-
-void BrickController::Update(float deltaTime) {
-    Controller::Update(deltaTime);
-}
-
-void BrickController::HandleEvent(const sf::Event& event) {
-    Controller::HandleEvent(event);
-}
-
 bool BrickController::CheckCollision(const sf::FloatRect& other) {
-    Brick* brick = GetBrick();
+    Brick* brick = GetActor<Brick>();
     if (!brick || brick->IsDestroyed()) {
         return false;
     }
@@ -27,12 +15,8 @@ bool BrickController::CheckCollision(const sf::FloatRect& other) {
 }
 
 void BrickController::OnHit(int damage) {
-    Brick* brick = GetBrick();
+    Brick* brick = GetActor<Brick>();
     if (brick && !brick->IsDestroyed()) {
         brick->TakeDamage(damage);
     }
 }
-
-Brick* BrickController::GetBrick() {
-    return dynamic_cast<Brick*>(actor_);
-} 

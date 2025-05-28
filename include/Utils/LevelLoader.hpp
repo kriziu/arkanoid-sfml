@@ -26,11 +26,10 @@ struct LevelData {
 
 class LevelLoader {
 public:
-    static bool LoadLevel(const std::string& filename, LevelData& levelData);
+    static bool LoadLevel(std::string filename, LevelData& levelData);
     static bool LoadBricksIntoScene(const LevelData& levelData, Scene* scene);
-    static std::vector<std::string> GetAvailableLevels(const std::string& levelsDirectory = "levels");
     
 private:
     static sf::Vector2f GridToWorldPosition(const GridPosition& gridPos, const LevelData& levelData);
-    static BrickType StringToBrickType(const std::string& typeStr);
+    static BrickType GetBrickType(char brickChar);
 }; 

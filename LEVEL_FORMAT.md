@@ -31,7 +31,7 @@ Following the header, each line represents a row of bricks in the grid.
 - `1` - Normal brick (red, 1 hit point)
 - `2` - Strong brick (blue, 2 hit points)
 - `X` - Unbreakable brick (gray, cannot be destroyed)
-- `.` or ` ` (space) - Empty space (no brick)
+- `.` - Empty space (no brick)
 
 ## Example Level
 
@@ -61,6 +61,7 @@ This creates:
 2. Define the header with your desired grid size and brick properties
 3. Design your brick layout using the character codes
 4. Test your level in the game
+5. Make sure levels directowy is in the same directory as binary file, otherwise levels won't load
 
 ## Level Loading
 
@@ -69,10 +70,3 @@ Levels are loaded automatically by the `LevelLoader` class:
 - `LoadLevel()` parses the file format
 - `LoadBricksIntoScene()` creates Brick actors and adds them to the scene
 - Each brick gets a `BrickController` for collision detection and destruction
-
-## Tips for Level Design
-
-- Use a mix of brick types for interesting gameplay
-- Leave strategic gaps for ball movement
-- Consider the paddle position when designing lower rows
-- Test your levels to ensure they're fun and balanced

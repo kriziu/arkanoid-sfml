@@ -8,7 +8,7 @@ A simple Arkanoid game implementation using SFML 3.0.1.
 
   - `Core/`: Core game management classes
   - `Actors/`: Game objects like Paddle, Ball, Brick
-  - `Controllers/`: Logic components attached to actors
+  - `Controllers/`: Logic components attached to actors and/or scenes
   - `Scenes/`: Game scenes like menu, gameplay
   - `Utils/`: Utility classes like MessageBus
 
@@ -37,5 +37,5 @@ The project follows an entity-component pattern:
 - **Core**: Main game controller managing the game loop and scenes
 - **Scene**: Container for actors and scene-specific controllers
 - **Actor**: Game entity with position, size and visual representation
-- **Controller**: Behavior logic attached to actors or scenes
+- **Controller**: Behavior logic attached to actors and/or scenes
 - **MessageBus**: Communication system between components

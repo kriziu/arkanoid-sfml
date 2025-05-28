@@ -3,19 +3,17 @@
 #include "../../include/Controllers/PaddleController.hpp"
 #include <iostream>
 
-GameplayScene::GameplayScene() : paddle_(nullptr) {}
+GameplayScene::GameplayScene() {}
 
 GameplayScene::~GameplayScene() {}
 
 void GameplayScene::Initialize() {
-    paddle_ = new Paddle();
-    paddle_->Initialize();
-    AddActor(paddle_);
+    Paddle* paddle = new Paddle();
+    paddle->AddController(new PaddleController());
+
+    AddActor(paddle);
     
-    PaddleController* paddleController = new PaddleController(paddle_);
-    paddleController->Initialize();
-    paddle_->AddController(paddleController);
-    
+    // TODO: Add some way to select level
     if (!LoadLevel("levels/level1.level")) {
         std::cerr << "Failed to load default level" << std::endl;
     }
@@ -23,7 +21,7 @@ void GameplayScene::Initialize() {
     Scene::Initialize();
 }
 
-bool GameplayScene::LoadLevel(const std::string& levelFile) {
+bool GameplayScene::LoadLevel(std::string levelFile) {
     if (!LevelLoader::LoadLevel(levelFile, currentLevel_)) {
         return false;
     }

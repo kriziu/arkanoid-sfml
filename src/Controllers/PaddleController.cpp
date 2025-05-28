@@ -2,31 +2,27 @@
 #include "../../include/Actors/Paddle.hpp"
 #include "../../include/Utils/Constants.hpp"
 
-PaddleController::PaddleController(Paddle* paddle) 
-    : paddle_(paddle) {}
+PaddleController::PaddleController(): Controller() {}
 
 PaddleController::~PaddleController() {}
 
 void PaddleController::Initialize() {
-    if (paddle_) {
-        float paddleWidth = paddle_->paddleWidth;
-        float paddleHeight = paddle_->paddleHeight;
-        float bottomOffset = paddle_->paddleBottomOffset;
+    if (Paddle* paddle = GetActor<Paddle>()) {
+        float paddleWidth = paddle->PADDLE_WIDTH;
+        float paddleHeight = paddle->PADDLE_HEIGHT;
+        float bottomOffset = paddle->PADDLE_BOTTOM_OFFSET;
         float paddleStartX = Constants::WINDOW_WIDTH / 2 - paddleWidth / 2;
         float paddleStartY = Constants::WINDOW_HEIGHT - paddleHeight - bottomOffset;
-        paddle_->SetPosition(paddleStartX, paddleStartY);
+        paddle->SetPosition(paddleStartX, paddleStartY);
     }
-}
-
-void PaddleController::Update(float deltaTime) {
 }
 
 void PaddleController::HandleEvent(const sf::Event& event) {
     if (const auto* mouseMoved = event.getIf<sf::Event::MouseMoved>()) {
-        if (paddle_) {
-            sf::Vector2f position = paddle_->GetPosition();
+        if (Paddle* paddle = GetActor<Paddle>()) {
+            sf::Vector2f position = paddle->GetPosition();
             
-            float paddleWidth = paddle_->paddleWidth;
+            float paddleWidth = paddle->PADDLE_WIDTH;
             float newX = mouseMoved->position.x - paddleWidth / 2;
 
             float maxX = Constants::WINDOW_WIDTH - paddleWidth;
@@ -37,8 +33,7 @@ void PaddleController::HandleEvent(const sf::Event& event) {
                 newX = maxX;
             }
 
-
-            paddle_->SetPosition(newX, position.y);
+            paddle->SetPosition(newX, position.y);
         }
     }
-} 
+}

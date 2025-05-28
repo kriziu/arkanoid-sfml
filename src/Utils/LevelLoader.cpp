@@ -3,9 +3,8 @@
 #include "../../include/Controllers/BrickController.hpp"
 #include <fstream>
 #include <iostream>
-#include <filesystem>
 
-bool LevelLoader::LoadLevel(const std::string& filename, LevelData& levelData) {
+bool LevelLoader::LoadLevel(std::string filename, LevelData& levelData) {
     std::ifstream file(filename);
     if (!file.is_open()) {
         std::cerr << "Failed to open level file: " << filename << std::endl;
@@ -32,23 +31,10 @@ bool LevelLoader::LoadLevel(const std::string& filename, LevelData& levelData) {
     while (std::getline(file, line) && currentRow < levelData.height) {
         for (int col = 0; col < (int)line.length() && col < levelData.width; ++col) {
             char brickChar = line[col];
-            if (brickChar != ' ' && brickChar != '.') {
+            if (brickChar != '.') {
                 BrickData brickData;
                 brickData.position = {col, currentRow};
-                
-                switch (brickChar) {
-                    case '1':
-                        brickData.type = BrickType::Normal;
-                        break;
-                    case '2':
-                        brickData.type = BrickType::Strong;
-                        break;
-                    case 'X':
-                        brickData.type = BrickType::Unbreakable;
-                        break;
-                    default:
-                        continue;
-                }
+                brickData.type = GetBrickType(brickChar);
                 
                 levelData.bricks.push_back(brickData);
             }
@@ -61,41 +47,18 @@ bool LevelLoader::LoadLevel(const std::string& filename, LevelData& levelData) {
 }
 
 bool LevelLoader::LoadBricksIntoScene(const LevelData& levelData, Scene* scene) {
-    if (!scene) {
-        return false;
-    }
-    
     for (const auto& brickData : levelData.bricks) {
         Brick* brick = new Brick(brickData.type);
         sf::Vector2f worldPos = GridToWorldPosition(brickData.position, levelData);
         
         brick->SetPosition(worldPos);
         brick->SetSize(sf::Vector2f(levelData.brickWidth, levelData.brickHeight));
-        
-        BrickController* controller = new BrickController();
-        brick->AddController(controller);
+        brick->AddController(new BrickController());
         
         scene->AddActor(brick);
     }
     
     return true;
-}
-
-std::vector<std::string> LevelLoader::GetAvailableLevels(const std::string& levelsDirectory) {
-    std::vector<std::string> levelFiles;
-    
-    if (!std::filesystem::exists(levelsDirectory)) {
-        std::cerr << "Levels directory does not exist: " << levelsDirectory << std::endl;
-        return levelFiles;
-    }
-    
-    for (const auto& entry : std::filesystem::directory_iterator(levelsDirectory)) {
-        if (entry.is_regular_file() && entry.path().extension() == ".level") {
-            levelFiles.push_back(entry.path().string());
-        }
-    }
-    
-    return levelFiles;
 }
 
 sf::Vector2f LevelLoader::GridToWorldPosition(const GridPosition& gridPos, const LevelData& levelData) {
@@ -104,9 +67,11 @@ sf::Vector2f LevelLoader::GridToWorldPosition(const GridPosition& gridPos, const
     return sf::Vector2f(x, y);
 }
 
-BrickType LevelLoader::StringToBrickType(const std::string& typeStr) {
-    if (typeStr == "normal") return BrickType::Normal;
-    if (typeStr == "strong") return BrickType::Strong;
-    if (typeStr == "unbreakable") return BrickType::Unbreakable;
-    return BrickType::Normal;
-} 
+BrickType LevelLoader::GetBrickType(char brickChar) {
+    switch (brickChar) {
+        case '1': return BrickType::Normal;
+        case '2': return BrickType::Strong;
+        case 'X': return BrickType::Unbreakable;
+        default: return BrickType::Normal;
+    }
+}
