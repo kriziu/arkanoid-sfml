@@ -1,6 +1,7 @@
 #include "../../include/Utils/LevelLoader.hpp"
 #include "../../include/Scenes/Scene.hpp"
 #include "../../include/Controllers/BrickController.hpp"
+#include "../../include/Utils/Constants.hpp"
 #include <fstream>
 #include <iostream>
 
@@ -19,10 +20,10 @@ bool LevelLoader::LoadLevel(const std::string& filename, LevelData& levelData) {
         return false;
     }
     
-    if (sscanf(line.c_str(), "%d %d %f %f %f %f %f", 
+    if (sscanf(line.c_str(), "%d %d %f %f %f", 
                &levelData.width, &levelData.height,
-               &levelData.brickWidth, &levelData.brickHeight, &levelData.spacing,
-               &levelData.startPosition.x, &levelData.startPosition.y) != 7) {
+               &levelData.spacing,
+               &levelData.padding.x, &levelData.padding.y) != 5) {
         std::cerr << "Invalid level header format" << std::endl;
         return false;
     }
@@ -52,7 +53,7 @@ bool LevelLoader::LoadBricksIntoScene(const LevelData& levelData, Scene* scene) 
         sf::Vector2f worldPos = GridToWorldPosition(brickData.position, levelData);
         
         brick->SetPosition(worldPos);
-        brick->SetSize(sf::Vector2f(levelData.brickWidth, levelData.brickHeight));
+        brick->SetSize(GetBrickSize(levelData));
         brick->AddController(new BrickController());
         
         scene->AddActor(brick);
@@ -62,8 +63,8 @@ bool LevelLoader::LoadBricksIntoScene(const LevelData& levelData, Scene* scene) 
 }
 
 sf::Vector2f LevelLoader::GridToWorldPosition(const GridPosition& gridPos, const LevelData& levelData) {
-    float x = levelData.startPosition.x + gridPos.x * (levelData.brickWidth + levelData.spacing);
-    float y = levelData.startPosition.y + gridPos.y * (levelData.brickHeight + levelData.spacing);
+    float x = levelData.padding.x + gridPos.x * (GetBrickSize(levelData).x + levelData.spacing);
+    float y = levelData.padding.y + gridPos.y * (GetBrickSize(levelData).y + levelData.spacing);
     return sf::Vector2f(x, y);
 }
 
@@ -74,4 +75,17 @@ BrickType LevelLoader::GetBrickType(char brickChar) {
         case 'X': return BrickType::Unbreakable;
         default: return BrickType::Normal;
     }
+}
+
+sf::Vector2f LevelLoader::GetBrickSize(const LevelData& levelData) {
+    float availableWidth = Constants::WINDOW_WIDTH - (2 * levelData.padding.x);
+    float totalSpacing = (levelData.width - 1) * levelData.spacing;
+    float brickWidth = (availableWidth - totalSpacing) / levelData.width;
+    
+    float playAreaHeight = (2.0f / 3.0f) * Constants::WINDOW_HEIGHT;
+    float availableHeight = playAreaHeight - (2 * levelData.padding.y);
+    float totalVerticalSpacing = (levelData.height - 1) * levelData.spacing;
+    float brickHeight = (availableHeight - totalVerticalSpacing) / levelData.height;
+    
+    return sf::Vector2f(brickWidth, brickHeight);
 }

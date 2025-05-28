@@ -8,19 +8,17 @@ Level files use the `.level` extension and follow a simple text-based format.
 
 ### Header Line
 
-The first line contains 7 space-separated values:
+The first line contains 5 space-separated values:
 
 ```
-<width> <height> <brick_width> <brick_height> <spacing> <start_x> <start_y>
+<width> <height> <spacing> <padding_x> <padding_y>
 ```
 
 - `width`: Number of columns in the grid
 - `height`: Number of rows in the grid
-- `brick_width`: Width of each brick in pixels
-- `brick_height`: Height of each brick in pixels
 - `spacing`: Space between bricks in pixels
-- `start_x`: X coordinate of the top-left brick position
-- `start_y`: Y coordinate of the top-left brick position
+- `padding_x`: X coordinate of the x padding
+- `padding_y`: Y coordinate of the y padding
 
 ### Grid Data
 
@@ -36,23 +34,20 @@ Following the header, each line represents a row of bricks in the grid.
 ## Example Level
 
 ```
-12 8 60.0 20.0 2.0 50.0 50.0
-111111111111
-222222222222
-111111111111
-2.1.X.X.1.2
-2.1.X.X.1.2
-111111111111
-222222222222
-111111111111
+13 8 5.0 20.0 20.0
+1111111111111
+1.1.1.1.1.1.1
+2.2.2.2.2.2.2
+2222222222222
+XX...XXX...XX
+..111...111..
 ```
 
 This creates:
 
-- A 12x8 grid
-- Bricks that are 60x20 pixels
-- 2 pixels spacing between bricks
-- Starting position at (50, 50)
+- A 13x8 grid
+- 5 pixels spacing between bricks
+- Padding of 20px in x and y dimensions
 - Mixed layout with normal, strong, and unbreakable bricks
 
 ## Creating Custom Levels

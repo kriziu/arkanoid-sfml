@@ -17,10 +17,8 @@ struct BrickData {
 struct LevelData {
     int width;
     int height;
-    float brickWidth;
-    float brickHeight;
     float spacing;
-    sf::Vector2f startPosition;
+    sf::Vector2f padding;
     std::vector<BrickData> bricks;
 };
 
@@ -32,4 +30,5 @@ public:
 private:
     static sf::Vector2f GridToWorldPosition(const GridPosition& gridPos, const LevelData& levelData);
     static BrickType GetBrickType(char brickChar);
+    static sf::Vector2f GetBrickSize(const LevelData& levelData);
 }; 
