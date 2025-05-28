@@ -34,7 +34,7 @@ Following the header, each line represents a row of bricks in the grid.
 ## Example Level
 
 ```
-13 8 5.0 20.0 20.0
+13 8 5 20 20
 1111111111111
 1.1.1.1.1.1.1
 2.2.2.2.2.2.2

@@ -4,6 +4,7 @@
 #include "../../include/Utils/Constants.hpp"
 #include <fstream>
 #include <iostream>
+#include <sstream>
 
 bool LevelLoader::LoadLevel(const std::string& filename, LevelData& levelData) {
     std::ifstream file(filename);
@@ -20,10 +21,8 @@ bool LevelLoader::LoadLevel(const std::string& filename, LevelData& levelData) {
         return false;
     }
     
-    if (sscanf(line.c_str(), "%d %d %f %f %f", 
-               &levelData.width, &levelData.height,
-               &levelData.spacing,
-               &levelData.padding.x, &levelData.padding.y) != 5) {
+    std::istringstream headerStream(line);
+    if (!(headerStream >> levelData.width >> levelData.height >> levelData.spacing >> levelData.padding.x >> levelData.padding.y)) {
         std::cerr << "Invalid level header format" << std::endl;
         return false;
     }
