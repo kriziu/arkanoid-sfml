@@ -20,7 +20,15 @@ public:
     Scene* GetScene() const;
     
     template<typename T>
-    T* GetController();
+    T* GetController() {
+        for (auto& controller : controllers_) {
+            T* result = dynamic_cast<T*>(controller);
+            if (result) {
+                return result;
+            }
+        }
+        return nullptr;
+    }
     
 protected:
     std::vector<Controller*> controllers_;

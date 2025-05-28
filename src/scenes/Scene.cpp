@@ -62,13 +62,6 @@ void Scene::AddController(Controller* controller) {
     controllers_.push_back(controller);
 }
 
-template<typename T>
-T* Scene::GetActor() {
-    for (auto& actor : actors_) {
-        T* result = dynamic_cast<T*>(actor);
-        if (result) {
-            return result;
-        }
-    }
-    return nullptr;
+const std::vector<Actor*>& Scene::GetActors() const {
+    return actors_;
 } 
