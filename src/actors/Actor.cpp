@@ -40,14 +40,3 @@ void Actor::SetScene(Scene* scene) {
 Scene* Actor::GetScene() const {
     return scene_;
 }
-
-template<typename T>
-T* Actor::GetController() {
-    for (auto& controller : controllers_) {
-        T* result = dynamic_cast<T*>(controller);
-        if (result) {
-            return result;
-        }
-    }
-    return nullptr;
-} 

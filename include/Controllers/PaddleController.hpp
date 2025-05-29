@@ -6,13 +6,9 @@ class Paddle;
 
 class PaddleController : public Controller {
 public:
-    PaddleController(Paddle* paddle);
+    PaddleController();
     ~PaddleController() override;
     
     void Initialize() override;
-    void Update(float deltaTime) override;
     void HandleEvent(const sf::Event& event) override;
-    
-private:
-    Paddle* paddle_;
 }; 

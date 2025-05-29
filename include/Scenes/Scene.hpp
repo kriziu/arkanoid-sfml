@@ -20,7 +20,17 @@ public:
     void AddController(Controller* controller);
     
     template<typename T>
-    T* GetActor();
+    T* GetActor() {
+        for (auto& actor : actors_) {
+            T* result = dynamic_cast<T*>(actor);
+            if (result) {
+                return result;
+            }
+        }
+        return nullptr;
+    }
+    
+    const std::vector<Actor*>& GetActors() const;
     
 protected:
     std::vector<Actor*> actors_;

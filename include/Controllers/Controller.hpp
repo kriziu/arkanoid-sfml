@@ -14,10 +14,18 @@ public:
     virtual void HandleEvent(const sf::Event& event) {}
     
     void SetActor(Actor* actor) { actor_ = actor; }
-    Actor* GetActor() const { return actor_; }
+    template<typename T>
+    T* GetActor() const {
+        if (!actor_) return nullptr;
+        return dynamic_cast<T*>(actor_);
+    }
     
     void SetScene(Scene* scene) { scene_ = scene; }
-    Scene* GetScene() const { return scene_; }
+    template<typename T>
+    T* GetScene() const {
+        if (!scene_) return nullptr;
+        return dynamic_cast<T*>(scene_);
+    }
     
 protected:
     Actor* actor_;
