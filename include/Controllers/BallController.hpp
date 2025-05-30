@@ -4,6 +4,7 @@
 
 class Ball;
 class Paddle;
+class Brick;
 
 class BallController : public Controller {
 public:
@@ -19,6 +20,7 @@ private:
     void UpdateBallPhysics(float deltaTime);
     void HandleWallCollisions();
     void HandlePaddleCollision();
+    void HandleBrickCollisions();
     void LaunchBall();
     
     Paddle* GetPaddle();
@@ -27,6 +29,6 @@ private:
     float currentSpeed_;
     
     const float INITIAL_SPEED = 300.0f;
-    const float SPEED_INCREASE = 20.0f;
-    const float MAX_SPEED = 800.0f;
+    const float SPEED_INCREASE = 10.0f;
+    const float MAX_SPEED = 600.0f;
 }; 

@@ -1,6 +1,7 @@
 #include "../../include/Controllers/BallController.hpp"
 #include "../../include/Actors/Ball.hpp"
 #include "../../include/Actors/Paddle.hpp"
+#include "../../include/Actors/Brick.hpp"
 #include "../../include/Scenes/Scene.hpp"
 #include "../../include/Utils/Constants.hpp"
 #include <cmath>
@@ -34,6 +35,7 @@ void BallController::Update(float deltaTime) {
         UpdateBallPhysics(deltaTime);
         HandleWallCollisions();
         HandlePaddleCollision();
+        HandleBrickCollisions();
     }
 }
 
@@ -146,6 +148,58 @@ void BallController::LaunchBall() {
     
     ball->SetAttachedToPaddle(false);
     ball->SetVelocity(0, -currentSpeed_);
+}
+
+void BallController::HandleBrickCollisions() {
+    Ball* ball = GetActor<Ball>();
+    if (!ball || !scene_) return;
+    
+    sf::FloatRect ballBounds = ball->GetBounds();
+    sf::Vector2f ballPos = ball->GetPosition();
+    sf::Vector2f velocity = ball->GetVelocity();
+    
+    auto& actors = scene_->GetActors();
+    for (Actor* actor : actors) {
+        Brick* brick = dynamic_cast<Brick*>(actor);
+        if (!brick || brick->IsDestroyed()) continue;
+        
+        sf::FloatRect brickBounds = brick->GetBounds();
+        if (ballBounds.findIntersection(brickBounds)) {
+            brick->TakeDamage(1);
+            
+            sf::Vector2f brickCenter = sf::Vector2f(
+                brickBounds.position.x + brickBounds.size.x / 2,
+                brickBounds.position.y + brickBounds.size.y / 2
+            );
+            
+            sf::Vector2f ballCenter = ballPos;
+            sf::Vector2f collisionVector = ballCenter - brickCenter;
+            
+            float overlapX = (brickBounds.size.x / 2 + ball->BALL_RADIUS) - std::abs(collisionVector.x);
+            float overlapY = (brickBounds.size.y / 2 + ball->BALL_RADIUS) - std::abs(collisionVector.y);
+            
+            if (overlapX < overlapY) {
+                velocity.x = -velocity.x;
+                
+                if (collisionVector.x > 0) {
+                    ball->SetPosition(brickBounds.position.x + brickBounds.size.x + ball->BALL_RADIUS, ballPos.y);
+                } else {
+                    ball->SetPosition(brickBounds.position.x - ball->BALL_RADIUS, ballPos.y);
+                }
+            } else {
+                velocity.y = -velocity.y;
+                
+                if (collisionVector.y > 0) {
+                    ball->SetPosition(ballPos.x, brickBounds.position.y + brickBounds.size.y + ball->BALL_RADIUS);
+                } else {
+                    ball->SetPosition(ballPos.x, brickBounds.position.y - ball->BALL_RADIUS);
+                }
+            }
+            
+            ball->SetVelocity(velocity.x, velocity.y);
+            return;
+        }
+    }
 }
 
 Paddle* BallController::GetPaddle() {
