@@ -1,11 +1,41 @@
 #include "../../include/Core/Core.hpp"
 #include "../../include/Scenes/Scene.hpp"
 
+sf::SoundBuffer Core::meowSoundBuffer_;
+sf::Sound* Core::meowSound_;
+
 Core::Core(unsigned int windowWidth, unsigned int windowHeight, const std::string& title) {
     window_.create(sf::VideoMode({windowWidth, windowHeight}), title, sf::Style::Titlebar | sf::Style::Close);
+    InitializeMusic();
+    InitializeSounds();
 }
 
 Core::~Core() {}
+
+void Core::InitializeMusic() {
+    if (!backgroundMusic_.openFromFile("assets/music/background.mp3")) {
+        return;
+    }
+    
+    backgroundMusic_.setLooping(true);
+    backgroundMusic_.setVolume(5.f);
+    backgroundMusic_.play();
+}
+
+void Core::InitializeSounds() {
+    if (!meowSoundBuffer_.loadFromFile("assets/music/meow.mp3")) {
+        return;
+    }
+    
+    meowSound_ = new sf::Sound(meowSoundBuffer_);
+    meowSound_->setVolume(20.f);
+}
+
+void Core::PlayMeowSound() {
+    if (meowSound_) {
+        meowSound_->play();
+    }
+}
 
 void Core::Run() {
     while (window_.isOpen()) {

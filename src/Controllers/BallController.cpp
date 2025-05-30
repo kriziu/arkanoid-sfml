@@ -4,6 +4,7 @@
 #include "../../include/Actors/Brick.hpp"
 #include "../../include/Scenes/Scene.hpp"
 #include "../../include/Utils/Constants.hpp"
+#include "../../include/Core/Core.hpp"
 #include <cmath>
 
 
@@ -179,6 +180,10 @@ Brick* BallController::FindCollidingBrick() {
 
 void BallController::ProcessBrickCollision(Brick* brick) {
     Ball* ball = GetActor<Ball>();
+
+    if (brick->GetType() != BrickType::Unbreakable) {
+        Core::PlayMeowSound();
+    }
 
     brick->TakeDamage(1);
     
