@@ -203,7 +203,7 @@ void BallController::CalculateCollisionResponse(Brick* brick, sf::Vector2f& velo
     
     newPosition = ballPos;
     
-    if (IsHorizontalCollision(brickBounds, ball->BALL_RADIUS)) {
+    if (IsHorizontalCollision(brickBounds)) {
         velocity.x = -velocity.x;
         
         if (ballPos.x < brickBounds.position.x + brickBounds.size.x / 2) {
@@ -222,9 +222,10 @@ void BallController::CalculateCollisionResponse(Brick* brick, sf::Vector2f& velo
     }
 }
 
-bool BallController::IsHorizontalCollision(const sf::FloatRect& brickBounds, float ballRadius) {
+bool BallController::IsHorizontalCollision(const sf::FloatRect& brickBounds) {
     Ball* ball = GetActor<Ball>();
     sf::Vector2f ballPos = ball->GetPosition();
+    float ballRadius = ball->BALL_RADIUS;
 
     sf::Vector2f brickCenter = sf::Vector2f(
         brickBounds.position.x + brickBounds.size.x / 2,
