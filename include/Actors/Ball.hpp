@@ -20,7 +20,6 @@ public:
     sf::FloatRect GetBounds() const;
     
     const float BALL_RADIUS = 12.0f;
-    const float BALL_SPEED = 300.0f;
     
 private:
     sf::CircleShape shape_;

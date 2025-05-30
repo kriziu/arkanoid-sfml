@@ -2,7 +2,7 @@
 #include "../../include/Scenes/Scene.hpp"
 
 sf::SoundBuffer Core::meowSoundBuffer_;
-sf::Sound* Core::meowSound_;
+std::unique_ptr<sf::Sound> Core::meowSound_;
 
 Core::Core(unsigned int windowWidth, unsigned int windowHeight, const std::string& title) {
     window_.create(sf::VideoMode({windowWidth, windowHeight}), title, sf::Style::Titlebar | sf::Style::Close);
@@ -27,7 +27,7 @@ void Core::InitializeSounds() {
         return;
     }
     
-    meowSound_ = new sf::Sound(meowSoundBuffer_);
+    meowSound_ = std::make_unique<sf::Sound>(meowSoundBuffer_);
     meowSound_->setVolume(20.f);
 }
 

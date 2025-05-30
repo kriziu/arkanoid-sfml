@@ -3,7 +3,6 @@
 #include <SFML/Audio.hpp>
 #include <vector>
 #include <string>
-#include <memory>
 
 class Scene;
 
@@ -31,5 +30,5 @@ private:
     sf::Music backgroundMusic_;
     
     static sf::SoundBuffer meowSoundBuffer_;
-    static sf::Sound* meowSound_;
+    static std::unique_ptr<sf::Sound> meowSound_;
 }; 
