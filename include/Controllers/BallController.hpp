@@ -23,6 +23,11 @@ private:
     void HandleBrickCollisions();
     void LaunchBall();
     
+    Brick* FindCollidingBrick();
+    void ProcessBrickCollision(Brick* brick);
+    void CalculateCollisionResponse(Brick* brick, sf::Vector2f& velocity, sf::Vector2f& newPosition);
+    bool IsHorizontalCollision(const sf::FloatRect& brickBounds, float ballRadius);
+    
     Paddle* GetPaddle();
     sf::Vector2f lastPaddlePosition_;
     sf::Vector2f paddleVelocity_;
