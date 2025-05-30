@@ -24,4 +24,9 @@ private:
     Paddle* GetPaddle();
     sf::Vector2f lastPaddlePosition_;
     sf::Vector2f paddleVelocity_;
+    float currentSpeed_;
+    
+    const float INITIAL_SPEED = 300.0f;
+    const float SPEED_INCREASE = 20.0f;
+    const float MAX_SPEED = 800.0f;
 }; 

@@ -5,14 +5,13 @@
 #include "../../include/Utils/Constants.hpp"
 #include <cmath>
 
-#ifndef M_PI
-#endif
 
 BallController::BallController() : Controller(), lastPaddlePosition_(0, 0), paddleVelocity_(0, 0) {}
 
 BallController::~BallController() {}
 
 void BallController::Initialize() {
+    currentSpeed_ = INITIAL_SPEED;
     if (Ball* ball = GetActor<Ball>()) {
         UpdateAttachedToPaddle();
     }
@@ -114,13 +113,13 @@ void BallController::HandlePaddleCollision() {
     sf::Vector2f paddlePos = paddle->GetPosition();
     sf::FloatRect paddleBounds(paddlePos, sf::Vector2f(paddle->PADDLE_WIDTH, paddle->PADDLE_HEIGHT));
     
-
-    
     if(ballBounds.findIntersection(paddleBounds)) {
         sf::Vector2f ballPos = ball->GetPosition();
         sf::Vector2f velocity = ball->GetVelocity();
         
         if (velocity.y > 0) {
+            currentSpeed_ = std::min(currentSpeed_ + SPEED_INCREASE, MAX_SPEED);
+            
             velocity.y = -std::abs(velocity.y);
             
             float paddleCenter = paddlePos.x + paddle->PADDLE_WIDTH / 2;
@@ -130,10 +129,8 @@ void BallController::HandlePaddleCollision() {
             float maxAngle = 60.0f * M_PI / 180.0f;
             float angle = normalizedX * maxAngle;
             
-            float speed = std::sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
-            
-            velocity.x = speed * std::sin(angle);
-            velocity.y = -speed * std::cos(angle);
+            velocity.x = currentSpeed_ * std::sin(angle);
+            velocity.y = -currentSpeed_ * std::cos(angle);
             
             velocity.x += paddleVelocity_.x * 0.3f;
             
@@ -148,7 +145,7 @@ void BallController::LaunchBall() {
     if (!ball) return;
     
     ball->SetAttachedToPaddle(false);
-    ball->SetVelocity(0, -ball->BALL_SPEED);
+    ball->SetVelocity(0, -currentSpeed_);
 }
 
 Paddle* BallController::GetPaddle() {
