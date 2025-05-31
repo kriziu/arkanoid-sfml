@@ -103,16 +103,21 @@ void BallController::HandleWallCollisions() {
     }
     
     if (position.y + ball->BALL_RADIUS >= Constants::WINDOW_HEIGHT) {
-        Message message;
-        message.type = MessageType::BallLost;
-        message.sender = this;
-        MessageBus::Publish(message);
+        HandleGameOver();
         return;
     }
     
     if (velocityChanged) {
         ball->SetVelocity(velocity.x, velocity.y);
     }
+}
+
+
+void BallController::HandleGameOver() {
+    Message message;
+    message.type = MessageType::BallLost;
+    message.sender = this;
+    MessageBus::Publish(message);
 }
 
 void BallController::HandlePaddleCollision() {
