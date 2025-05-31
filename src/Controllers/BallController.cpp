@@ -4,6 +4,7 @@
 #include "../../include/Actors/Brick.hpp"
 #include "../../include/Scenes/Scene.hpp"
 #include "../../include/Utils/Constants.hpp"
+#include "../../include/Utils/MessageBus.hpp"
 #include "../../include/Core/Core.hpp"
 #include <cmath>
 
@@ -99,6 +100,14 @@ void BallController::HandleWallCollisions() {
         ball->SetPosition(position.x, ball->BALL_RADIUS);
         velocity.y = std::abs(velocity.y);
         velocityChanged = true;
+    }
+    
+    if (position.y + ball->BALL_RADIUS >= Constants::WINDOW_HEIGHT) {
+        Message message;
+        message.type = MessageType::BallLost;
+        message.sender = this;
+        MessageBus::Publish(message);
+        return;
     }
     
     if (velocityChanged) {
