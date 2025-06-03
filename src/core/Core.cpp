@@ -38,6 +38,10 @@ void Core::PlayMeowSound() {
 }
 
 void Core::Run() {
+    for (auto& scene : scenes_) {
+        scene->Initialize();
+    }
+    
     while (window_.isOpen()) {
         ProcessEvents();
         
@@ -55,7 +59,9 @@ void Core::ProcessEvents() {
         }
 
         for (auto& scene : scenes_) {
-            scene->HandleEvent(*event);
+            if (scene->IsActive()) {
+                scene->HandleEvent(*event);
+            }
         }
     }
 }
@@ -70,7 +76,9 @@ void Core::Render() {
     window_.clear(sf::Color::Black);
     
     for (auto& scene : scenes_) {
-        scene->Draw(window_);
+        if (scene->IsActive()) {
+            scene->Draw(window_);
+        }
     }
     
     window_.display();

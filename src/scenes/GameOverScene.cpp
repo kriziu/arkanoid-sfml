@@ -1,15 +1,16 @@
 #include <iostream>
 #include "../../include/Scenes/GameOverScene.hpp"
 #include "../../include/Utils/Constants.hpp"
-#include "../../include/Utils/MessageBus.hpp"
 
 GameOverScene::GameOverScene() : gameOverText_(sf::Text(font_)), restartText_(sf::Text(font_)), tryAgainText_(sf::Text(font_)) {}
 
 GameOverScene::~GameOverScene() {}
 
 void GameOverScene::Initialize() {
-    SetupUI();
     Scene::Initialize();
+
+    SetActive(false);
+    SetupUI();
 }
 
 void GameOverScene::SetupUI() {
@@ -66,25 +67,6 @@ void GameOverScene::Draw(sf::RenderWindow& window) {
     window.draw(restartText_);
     
     Scene::Draw(window);
-}
-
-void GameOverScene::HandleEvent(const sf::Event& event) {
-    if (const auto* mouseButtonPressed = event.getIf<sf::Event::MouseButtonPressed>()) {
-        if (mouseButtonPressed->button == sf::Mouse::Button::Left) {
-            sf::Vector2f mousePos(static_cast<float>(mouseButtonPressed->position.x),
-                                static_cast<float>(mouseButtonPressed->position.y));
-            
-            if (IsRestartButtonClicked(mousePos)) {
-                Message message;
-                message.type = MessageType::GameOver;
-                message.sender = this;
-                message.payload = std::string("restart");
-                MessageBus::Publish(message);
-            }
-        }
-    }
-    
-    Scene::HandleEvent(event);
 }
 
 bool GameOverScene::IsRestartButtonClicked(const sf::Vector2f& mousePos) const {

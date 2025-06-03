@@ -31,8 +31,12 @@ public:
     }
     
     const std::vector<Actor*>& GetActors() const;
+
+    bool IsActive() const;
+    void SetActive(bool active);
     
 protected:
     std::vector<Actor*> actors_;
     std::vector<Controller*> controllers_;
+    bool active_;
 }; 

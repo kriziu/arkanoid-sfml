@@ -103,7 +103,7 @@ void BallController::HandleWallCollisions() {
     }
     
     if (position.y + ball->BALL_RADIUS >= Constants::WINDOW_HEIGHT) {
-        HandleGameOver();
+        HandleBallLost();
         return;
     }
     
@@ -113,7 +113,7 @@ void BallController::HandleWallCollisions() {
 }
 
 
-void BallController::HandleGameOver() {
+void BallController::HandleBallLost() {
     Message message;
     message.type = MessageType::BallLost;
     message.sender = this;

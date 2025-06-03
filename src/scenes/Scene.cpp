@@ -8,6 +8,8 @@ Scene::Scene() {}
 Scene::~Scene() {}
 
 void Scene::Initialize() {
+    SetActive(true);
+
     for (auto& actor : actors_) {
         actor->Initialize();
     }
@@ -65,3 +67,11 @@ void Scene::AddController(Controller* controller) {
 const std::vector<Actor*>& Scene::GetActors() const {
     return actors_;
 } 
+
+bool Scene::IsActive() const {
+    return active_;
+}
+
+void Scene::SetActive(bool active) {
+    active_ = active;
+}

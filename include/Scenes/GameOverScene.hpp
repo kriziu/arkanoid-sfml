@@ -9,7 +9,8 @@ public:
 
     void Initialize() override;
     void Draw(sf::RenderWindow& window) override;
-    void HandleEvent(const sf::Event& event) override;
+
+    bool IsRestartButtonClicked(const sf::Vector2f& mousePos) const;
 
 private:
     sf::Font font_;
@@ -20,5 +21,4 @@ private:
     bool fontLoaded_;
     
     void SetupUI();
-    bool IsRestartButtonClicked(const sf::Vector2f& mousePos) const;
 }; 
