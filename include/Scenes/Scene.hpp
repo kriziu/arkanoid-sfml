@@ -18,7 +18,6 @@ public:
 
     void AddActor(Actor* actor);
     void RemoveActor(Actor* actor);
-    void ClearActors();
     void AddController(Controller* controller);
     
     template<typename T>

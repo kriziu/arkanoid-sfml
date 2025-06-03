@@ -11,7 +11,6 @@ public:
 
     void Initialize() override;
     bool LoadLevel(const std::string& levelFile);
-    void RestartLevel();
     
 private:
     Paddle* paddle_;
