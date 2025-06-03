@@ -71,4 +71,4 @@ void GameOverScene::Draw(sf::RenderWindow& window) {
 
 bool GameOverScene::IsRestartButtonClicked(const sf::Vector2f& mousePos) const {
     return restartButton_.getGlobalBounds().contains(mousePos);
-} 
+}

@@ -11,12 +11,14 @@ public:
     virtual ~Scene();
     
     virtual void Initialize();
+    virtual void Reset();
     virtual void Update(float deltaTime);
     virtual void Draw(sf::RenderWindow& window);
     virtual void HandleEvent(const sf::Event& event);
-    
+
     void AddActor(Actor* actor);
     void RemoveActor(Actor* actor);
+    void ClearActors();
     void AddController(Controller* controller);
     
     template<typename T>

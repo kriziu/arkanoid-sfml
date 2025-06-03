@@ -4,12 +4,24 @@
 
 Actor::Actor() : scene_(nullptr), size_(0, 0){}
 
-Actor::~Actor() {}
+Actor::~Actor() {
+    for (auto& controller : controllers_) {
+        delete controller;
+    }
+    controllers_.clear();
+}
 
 void Actor::Initialize() {
     for (auto& controller : controllers_) {
         controller->Initialize();
     }
+}
+
+void Actor::Reset() {
+    for (auto& controller : controllers_) {
+        controller->Initialize();
+    }
+    Initialize();
 }
 
 void Actor::Update(float deltaTime) {

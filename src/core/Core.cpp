@@ -68,7 +68,9 @@ void Core::ProcessEvents() {
 
 void Core::Update(float deltaTime) {
     for (auto& scene : scenes_) {
-        scene->Update(deltaTime);
+        if (scene->IsActive()) {
+            scene->Update(deltaTime);
+        }
     }
 }
 

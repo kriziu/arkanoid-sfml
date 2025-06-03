@@ -24,7 +24,7 @@ void GameOverSceneController::HandleBallLost(const Message& message) {
 void GameOverSceneController::HandleLevelRestarted(const Message& message) {
     GameOverScene* gameOverScene = GetScene<GameOverScene>();
     gameOverScene->SetActive(false);
-} 
+}
 
 void GameOverSceneController::HandleEvent(const sf::Event& event) {
     GameOverScene* gameOverScene = GetScene<GameOverScene>();

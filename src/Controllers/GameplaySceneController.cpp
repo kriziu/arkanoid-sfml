@@ -23,5 +23,5 @@ void GameplaySceneController::HandleBallLost(const Message& message) {
 
 void GameplaySceneController::HandleLevelRestarted(const Message& message) {
     GameplayScene* gameplayScene = GetScene<GameplayScene>();
-    gameplayScene->SetActive(true);
+    gameplayScene->RestartLevel();
 } 

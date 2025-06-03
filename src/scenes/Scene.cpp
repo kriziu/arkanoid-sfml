@@ -5,7 +5,17 @@
 
 Scene::Scene() {}
 
-Scene::~Scene() {}
+Scene::~Scene() {
+    for (auto& actor : actors_) {
+        delete actor;
+    }
+    actors_.clear();
+    
+    for (auto& controller : controllers_) {
+        delete controller;
+    }
+    controllers_.clear();
+}
 
 void Scene::Initialize() {
     SetActive(true);
@@ -17,6 +27,15 @@ void Scene::Initialize() {
     for (auto& controller : controllers_) {
         controller->Initialize();
     }
+}
+
+void Scene::Reset() {
+   for (auto& actor : actors_) {
+        delete actor;
+    }
+    actors_.clear();
+    
+    Initialize();
 }
 
 void Scene::Update(float deltaTime) {
@@ -57,6 +76,13 @@ void Scene::RemoveActor(Actor* actor) {
     if (it != actors_.end()) {
         actors_.erase(it);
     }
+}
+
+void Scene::ClearActors() {
+    for (auto& actor : actors_) {
+        delete actor;
+    }
+    actors_.clear();
 }
 
 void Scene::AddController(Controller* controller) {
