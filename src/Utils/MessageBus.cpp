@@ -4,6 +4,7 @@
 std::unordered_map<MessageType, std::vector<std::pair<void*, MessageBus::MessageHandler>>> MessageBus::subscribers_;
 
 void MessageBus::Subscribe(MessageType type, void* subscriber, MessageHandler handler) {
+    Unsubscribe(type, subscriber);
     subscribers_[type].push_back(std::make_pair(subscriber, handler));
 }
 
@@ -21,7 +22,8 @@ void MessageBus::Publish(const Message& message) {
         return;
     }
     
-    for (const auto& [subscriber, handler] : subscribers_[message.type]) {
+    auto subscribers = subscribers_[message.type];
+    for (const auto& [subscriber, handler] : subscribers) {
         handler(message);
     }
 } 
