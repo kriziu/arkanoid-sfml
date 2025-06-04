@@ -11,6 +11,7 @@ public:
     virtual ~Actor();
     
     virtual void Initialize();
+    virtual void Reset();
     virtual void Update(float deltaTime);
     virtual void HandleEvent(const sf::Event& event);
     virtual void Draw(sf::RenderWindow& window) {}

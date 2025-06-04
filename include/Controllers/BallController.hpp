@@ -22,6 +22,7 @@ private:
     void HandlePaddleCollision();
     void HandleBrickCollisions();
     void LaunchBall();
+    void HandleBallLost();
     
     Brick* FindCollidingBrick();
     void ProcessBrickCollision(Brick* brick);

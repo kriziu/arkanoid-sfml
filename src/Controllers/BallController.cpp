@@ -4,6 +4,7 @@
 #include "../../include/Actors/Brick.hpp"
 #include "../../include/Scenes/Scene.hpp"
 #include "../../include/Utils/Constants.hpp"
+#include "../../include/Utils/MessageBus.hpp"
 #include "../../include/Core/Core.hpp"
 #include <cmath>
 
@@ -101,9 +102,22 @@ void BallController::HandleWallCollisions() {
         velocityChanged = true;
     }
     
+    if (position.y + ball->BALL_RADIUS >= Constants::WINDOW_HEIGHT) {
+        HandleBallLost();
+        return;
+    }
+    
     if (velocityChanged) {
         ball->SetVelocity(velocity.x, velocity.y);
     }
+}
+
+
+void BallController::HandleBallLost() {
+    Message message;
+    message.type = MessageType::BallLost;
+    message.sender = this;
+    MessageBus::Publish(message);
 }
 
 void BallController::HandlePaddleCollision() {

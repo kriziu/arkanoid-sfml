@@ -5,9 +5,21 @@
 
 Scene::Scene() {}
 
-Scene::~Scene() {}
+Scene::~Scene() {
+    for (auto& actor : actors_) {
+        delete actor;
+    }
+    actors_.clear();
+    
+    for (auto& controller : controllers_) {
+        delete controller;
+    }
+    controllers_.clear();
+}
 
 void Scene::Initialize() {
+    SetActive(true);
+
     for (auto& actor : actors_) {
         actor->Initialize();
     }
@@ -15,6 +27,17 @@ void Scene::Initialize() {
     for (auto& controller : controllers_) {
         controller->Initialize();
     }
+}
+
+void Scene::Reset() {
+    SetActive(false);
+    
+    for (auto& actor : actors_) {
+        delete actor;
+    }
+    actors_.clear();
+    
+    Initialize();
 }
 
 void Scene::Update(float deltaTime) {
@@ -65,3 +88,11 @@ void Scene::AddController(Controller* controller) {
 const std::vector<Actor*>& Scene::GetActors() const {
     return actors_;
 } 
+
+bool Scene::IsActive() const {
+    return active_;
+}
+
+void Scene::SetActive(bool active) {
+    active_ = active;
+}
