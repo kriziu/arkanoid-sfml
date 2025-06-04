@@ -18,9 +18,6 @@ void Actor::Initialize() {
 }
 
 void Actor::Reset() {
-    for (auto& controller : controllers_) {
-        controller->Initialize();
-    }
     Initialize();
 }
 

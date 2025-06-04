@@ -22,8 +22,8 @@ void MessageBus::Publish(const Message& message) {
         return;
     }
     
-    auto subscribersCopy = subscribers_[message.type];
-    for (const auto& [subscriber, handler] : subscribersCopy) {
+    auto subscribers = subscribers_[message.type];
+    for (const auto& [subscriber, handler] : subscribers) {
         handler(message);
     }
 } 

@@ -10,7 +10,12 @@ Core::Core(unsigned int windowWidth, unsigned int windowHeight, const std::strin
     InitializeSounds();
 }
 
-Core::~Core() {}
+Core::~Core() {
+    for (auto& scene : scenes_) {
+        delete scene;
+    }
+    scenes_.clear();
+}
 
 void Core::InitializeMusic() {
     if (!backgroundMusic_.openFromFile("assets/music/background.mp3")) {
