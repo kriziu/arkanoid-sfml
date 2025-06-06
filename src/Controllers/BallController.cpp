@@ -114,10 +114,29 @@ void BallController::HandleWallCollisions() {
 
 
 void BallController::HandleBallLost() {
-    Message message;
-    message.type = MessageType::BallLost;
-    message.sender = this;
-    MessageBus::Publish(message);
+    Ball* ball = GetActor<Ball>();
+    if (!ball) return;
+    
+    ball->DecrementLives();
+    
+    if (ball->GetLives() <= 0) {
+        Message gameOverMessage;
+        gameOverMessage.type = MessageType::GameOver;
+        gameOverMessage.sender = this;
+        MessageBus::Publish(gameOverMessage);
+    } else {
+        RespawnBall();
+    }
+}
+
+void BallController::RespawnBall() {
+    Ball* ball = GetActor<Ball>();
+    if (!ball) return;
+    
+    ball->SetAttachedToPaddle(true);
+    ball->SetVelocity(0, 0);
+    currentSpeed_ = INITIAL_SPEED;
+    UpdateAttachedToPaddle();
 }
 
 void BallController::HandlePaddleCollision() {

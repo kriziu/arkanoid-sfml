@@ -19,10 +19,15 @@ public:
     
     sf::FloatRect GetBounds() const;
     
+    int GetLives() const;
+    void SetLives(int lives);
+    void DecrementLives();
+    
     const float BALL_RADIUS = 12.0f;
     
 private:
     sf::CircleShape shape_;
     sf::Vector2f velocity_;
     bool attachedToPaddle_;
+    int lives_;
 }; 

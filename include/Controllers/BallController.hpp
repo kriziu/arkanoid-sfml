@@ -23,6 +23,7 @@ private:
     void HandleBrickCollisions();
     void LaunchBall();
     void HandleBallLost();
+    void RespawnBall();
     
     Brick* FindCollidingBrick();
     void ProcessBrickCollision(Brick* brick);

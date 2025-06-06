@@ -1,6 +1,6 @@
 #include "../../include/Actors/Ball.hpp"
 
-Ball::Ball() : Actor(), velocity_(0, 0), attachedToPaddle_(true) {}
+Ball::Ball() : Actor(), velocity_(0, 0), attachedToPaddle_(true), lives_(3) {}
 
 Ball::~Ball() {}
 
@@ -45,4 +45,16 @@ void Ball::SetAttachedToPaddle(bool attached) {
 
 sf::FloatRect Ball::GetBounds() const {
     return shape_.getGlobalBounds();
+}
+
+int Ball::GetLives() const {
+    return lives_;
+}
+
+void Ball::SetLives(int lives) {
+    lives_ = lives;
+}
+
+void Ball::DecrementLives() {
+    lives_--;
 } 
