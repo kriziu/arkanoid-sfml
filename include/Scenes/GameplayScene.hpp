@@ -4,7 +4,6 @@
 #include <SFML/Graphics.hpp>
 
 class Paddle;
-class Ball;
 
 class GameplayScene : public Scene {
 public:
@@ -20,7 +19,6 @@ private:
     void DrawLivesDisplay(sf::RenderWindow& window);
     
     Paddle* paddle_;
-    Ball* ball_;
     LevelData currentLevel_;
     sf::Font font_;
     sf::Text livesText_;

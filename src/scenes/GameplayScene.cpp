@@ -11,7 +11,7 @@ GameplayScene::GameplayScene(): livesText_(sf::Text(font_)) {}
 GameplayScene::~GameplayScene() {}
 
 void GameplayScene::Initialize() {
- Paddle* paddle = new Paddle();
+    Paddle* paddle = new Paddle();
     paddle->AddController(new PaddleController());
 
     Ball* ball = new Ball();
@@ -20,6 +20,7 @@ void GameplayScene::Initialize() {
     AddActor(paddle);
     AddActor(ball);
     
+    // TODO: Add some way to select level
     if (!LoadLevel("levels/level1.level")) {
         std::cerr << "Failed to load default level" << std::endl;
     }
