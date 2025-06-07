@@ -20,13 +20,13 @@ void GameplayScene::Initialize() {
     AddActor(paddle);
     AddActor(ball);
     
-    // TODO: Add some way to select level
-    if (!LoadLevel("levels/level1.level")) {
-        std::cerr << "Failed to load default level" << std::endl;
+    if (!selectedLevelFilename_.empty() && !LoadLevel(selectedLevelFilename_)) {
+        std::cerr << "Failed to load level: " << selectedLevelFilename_ << std::endl;
     }
     
     SetupUI();
     Scene::Initialize();
+    SetActive(false);
 }
 
 void GameplayScene::SetupUI() {
@@ -59,8 +59,8 @@ void GameplayScene::DrawLivesDisplay(sf::RenderWindow& window) {
     window.draw(livesText_);
 }
 
-bool GameplayScene::LoadLevel(const std::string& levelFile) {
-    if (!LevelLoader::LoadLevel(levelFile, currentLevel_)) {
+bool GameplayScene::LoadLevel(const std::string& levelFilename) {
+    if (!LevelLoader::LoadLevel(levelFilename, currentLevel_)) {
         return false;
     }
     
@@ -69,4 +69,8 @@ bool GameplayScene::LoadLevel(const std::string& levelFile) {
     }
     
     return true;
+}
+
+void GameplayScene::SetLevelFilename(const std::string& levelFilename) {
+    selectedLevelFilename_ = levelFilename;
 }

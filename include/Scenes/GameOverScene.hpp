@@ -11,6 +11,7 @@ public:
     void Draw(sf::RenderWindow& window) override;
 
     bool IsRestartButtonClicked(const sf::Vector2f& mousePos) const;
+    bool IsLevelSelectorButtonClicked(const sf::Vector2f& mousePos) const;
 
 private:
     sf::Font font_;
@@ -18,6 +19,8 @@ private:
     sf::Text restartText_;
     sf::RectangleShape restartButton_;
     sf::Text tryAgainText_;
+    sf::RectangleShape levelSelectorButton_;
+    sf::Text levelSelectorText_;
     bool fontLoaded_;
     
     void SetupUI();

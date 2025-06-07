@@ -40,6 +40,13 @@ void GameOverSceneController::HandleEvent(const sf::Event& event) {
                 message.sender = this;
                 MessageBus::Publish(message);
             }
+            
+            if (gameOverScene->IsLevelSelectorButtonClicked(mousePos)) {
+                Message message;
+                message.type = MessageType::ShowLevelSelector;
+                message.sender = this;
+                MessageBus::Publish(message);
+            }
         }
     }
 }

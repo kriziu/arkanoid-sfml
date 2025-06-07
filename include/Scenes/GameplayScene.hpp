@@ -12,7 +12,8 @@ public:
 
     void Initialize() override;
     void Draw(sf::RenderWindow& window) override;
-    bool LoadLevel(const std::string& levelFile);
+    bool LoadLevel(const std::string& levelFilename);
+    void SetLevelFilename(const std::string& levelFilename);
     
 private:
     void SetupUI();
@@ -22,4 +23,5 @@ private:
     LevelData currentLevel_;
     sf::Font iconsFont_;
     sf::Text livesText_;
+    std::string selectedLevelFilename_;
 }; 

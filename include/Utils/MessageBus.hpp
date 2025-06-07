@@ -7,7 +7,9 @@
 enum class MessageType {
     BrickDestroyed,
     LevelRestarted,
-    GameOver
+    GameOver,
+    LevelSelected,
+    ShowLevelSelector
 };
 
 struct Message {
