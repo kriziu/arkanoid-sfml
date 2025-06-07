@@ -4,19 +4,19 @@
 GameOverSceneController::GameOverSceneController() : Controller() {}
 
 GameOverSceneController::~GameOverSceneController() {
-    MessageBus::Unsubscribe(MessageType::BallLost, this);
+    MessageBus::Unsubscribe(MessageType::GameOver, this);
     MessageBus::Unsubscribe(MessageType::LevelRestarted, this);
 }
 
 void GameOverSceneController::Initialize() {
-    MessageBus::Subscribe(MessageType::BallLost, this, 
-        [this](const Message& msg) { HandleBallLost(msg); });
+    MessageBus::Subscribe(MessageType::GameOver, this, 
+        [this](const Message& msg) { HandleGameOver(msg); });
 
     MessageBus::Subscribe(MessageType::LevelRestarted, this, 
         [this](const Message& msg) { HandleLevelRestarted(msg); });
 }
 
-void GameOverSceneController::HandleBallLost(const Message& message) {
+void GameOverSceneController::HandleGameOver(const Message& message) {
     GameOverScene* gameOverScene = GetScene<GameOverScene>();
     gameOverScene->SetActive(true);
 }

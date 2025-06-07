@@ -6,8 +6,8 @@
 
 enum class MessageType {
     BrickDestroyed,
-    BallLost,
-    LevelRestarted
+    LevelRestarted,
+    GameOver
 };
 
 struct Message {

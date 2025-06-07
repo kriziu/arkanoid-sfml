@@ -14,6 +14,6 @@ public:
     void Initialize() override;
 
 private:
-    void HandleBallLost(const Message& message);
+    void HandleGameOver(const Message& message);
     void HandleLevelRestarted(const Message& message);
 }; 

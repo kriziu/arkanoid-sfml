@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.hpp"
 #include "../Utils/LevelLoader.hpp"
+#include <SFML/Graphics.hpp>
 
 class Paddle;
 
@@ -10,9 +11,15 @@ public:
     ~GameplayScene() override;
 
     void Initialize() override;
+    void Draw(sf::RenderWindow& window) override;
     bool LoadLevel(const std::string& levelFile);
     
 private:
+    void SetupUI();
+    void DrawLivesDisplay(sf::RenderWindow& window);
+    
     Paddle* paddle_;
     LevelData currentLevel_;
+    sf::Font iconsFont_;
+    sf::Text livesText_;
 }; 
