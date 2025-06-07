@@ -44,7 +44,7 @@ private:
     sf::Text nextPageText_;
     sf::Text prevPageText_;
     
-    static const int GRID_COLS = 1;
+    static const int GRID_COLS = 3;
     static const int GRID_ROWS = 2;
     static constexpr float TILE_SIZE = 150.0f;
     static constexpr float TILE_SPACING = 20.0f;
