@@ -37,15 +37,13 @@ void LevelSelectorSceneController::HandleEvent(const sf::Event& event) {
                 levelSelectorScene->SetActive(false);
             }
             
-            // if (levelSelectorScene->IsNextPageButtonClicked(mousePos) && levelSelectorScene->currentPage_ < levelSelectorScene->totalPages_ - 1) {
-            //     levelSelectorScene->currentPage_++;
-            //     levelSelectorScene->UpdatePageDisplay();
-            // }
+            if (levelSelectorScene->IsNextPageButtonClicked(mousePos) && levelSelectorScene->GetCurrentPage() < levelSelectorScene->GetTotalPages() - 1) {
+                levelSelectorScene->SetCurrentPage(levelSelectorScene->GetCurrentPage() + 1);
+            }
             
-            // if (levelSelectorScene->IsPrevPageButtonClicked(mousePos) && levelSelectorScene->currentPage_ > 0) {
-            //     levelSelectorScene->currentPage_--;
-            //     levelSelectorScene->UpdatePageDisplay();
-            // }
+            if (levelSelectorScene->IsPrevPageButtonClicked(mousePos) && levelSelectorScene->GetCurrentPage() > 0) {
+                levelSelectorScene->SetCurrentPage(levelSelectorScene->GetCurrentPage() - 1);
+            }
         }
     }
 }

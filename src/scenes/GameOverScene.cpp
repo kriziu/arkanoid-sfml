@@ -42,7 +42,7 @@ void GameOverScene::SetupUI() {
     sf::FloatRect tryAgainBounds = tryAgainText_.getLocalBounds();
     tryAgainText_.setPosition(sf::Vector2f(
         (Constants::WINDOW_WIDTH - tryAgainBounds.size.x) / 2 - tryAgainBounds.position.x,
-        Constants::WINDOW_HEIGHT / 2 - 10
+        Constants::WINDOW_HEIGHT / 2 - 20
     ));
     
     restartButton_.setSize(sf::Vector2f(200, 60));

@@ -21,6 +21,19 @@ std::vector<LevelInfo> LevelSelectorScene::GetLevels() const {
     return levels_;
 }
 
+int LevelSelectorScene::GetCurrentPage() const {
+    return currentPage_;
+}
+
+int LevelSelectorScene::GetTotalPages() const {
+    return totalPages_;
+}
+
+void LevelSelectorScene::SetCurrentPage(int page) {
+    currentPage_ = page;
+    UpdatePageDisplay();
+}
+
 void LevelSelectorScene::LoadLevelFiles() {
     levels_.clear();
     
@@ -109,8 +122,6 @@ void LevelSelectorScene::SetupUI() {
     ));
 }
 
-
-
 void LevelSelectorScene::UpdatePageDisplay() {
     std::string pageStr = "Page " + std::to_string(currentPage_ + 1) + " / " + std::to_string(totalPages_);
     pageText_.setString(pageStr);
@@ -118,7 +129,7 @@ void LevelSelectorScene::UpdatePageDisplay() {
     sf::FloatRect pageBounds = pageText_.getLocalBounds();
     pageText_.setPosition(sf::Vector2f(
         (Constants::WINDOW_WIDTH - pageBounds.size.x) / 2,
-        Constants::WINDOW_HEIGHT - 40
+        Constants::WINDOW_HEIGHT - 55
     ));
 }
 
