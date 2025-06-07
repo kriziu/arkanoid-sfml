@@ -15,7 +15,9 @@ public:
     sf::Vector2f GetVelocity() const;
     
     bool IsAttachedToPaddle() const;
+    bool IsInitialLaunchBlocked() const;
     void SetAttachedToPaddle(bool attached);
+    void SetInitialLaunchBlocked(bool blocked);
     
     sf::FloatRect GetBounds() const;
     
@@ -29,5 +31,6 @@ private:
     sf::CircleShape shape_;
     sf::Vector2f velocity_;
     bool attachedToPaddle_;
+    bool initialLaunchBlocked_;
     int lives_;
 }; 

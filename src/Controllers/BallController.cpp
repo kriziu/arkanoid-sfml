@@ -22,7 +22,6 @@ void BallController::Initialize() {
 
 void BallController::Update(float deltaTime) {
     Ball* ball = GetActor<Ball>();
-    if (!ball) return;
     
     Paddle* paddle = GetPaddle();
     if (paddle) {
@@ -45,7 +44,10 @@ void BallController::HandleEvent(const sf::Event& event) {
     if (const auto* mouseButtonPressed = event.getIf<sf::Event::MouseButtonPressed>()) {
         if (mouseButtonPressed->button == sf::Mouse::Button::Left) {
             Ball* ball = GetActor<Ball>();
-            if (ball && ball->IsAttachedToPaddle()) {
+
+            if (ball->IsInitialLaunchBlocked()) {
+                ball->SetInitialLaunchBlocked(false);
+            } else if (ball->IsAttachedToPaddle()) {
                 LaunchBall();
             }
         }
@@ -55,8 +57,6 @@ void BallController::HandleEvent(const sf::Event& event) {
 void BallController::UpdateAttachedToPaddle() {
     Ball* ball = GetActor<Ball>();
     Paddle* paddle = GetPaddle();
-    
-    if (!ball || !paddle) return;
     
     sf::Vector2f paddlePos = paddle->GetPosition();
     float ballX = paddlePos.x + paddle->PADDLE_WIDTH / 2;
@@ -68,7 +68,6 @@ void BallController::UpdateAttachedToPaddle() {
 
 void BallController::UpdateBallPhysics(float deltaTime) {
     Ball* ball = GetActor<Ball>();
-    if (!ball) return;
     
     sf::Vector2f position = ball->GetPosition();
     sf::Vector2f velocity = ball->GetVelocity();
@@ -79,7 +78,6 @@ void BallController::UpdateBallPhysics(float deltaTime) {
 
 void BallController::HandleWallCollisions() {
     Ball* ball = GetActor<Ball>();
-    if (!ball) return;
     
     sf::Vector2f position = ball->GetPosition();
     sf::Vector2f velocity = ball->GetVelocity();
@@ -115,7 +113,6 @@ void BallController::HandleWallCollisions() {
 
 void BallController::HandleBallLost() {
     Ball* ball = GetActor<Ball>();
-    if (!ball) return;
     
     ball->DecrementLives();
     
@@ -131,7 +128,6 @@ void BallController::HandleBallLost() {
 
 void BallController::RespawnBall() {
     Ball* ball = GetActor<Ball>();
-    if (!ball) return;
     
     ball->SetAttachedToPaddle(true);
     ball->SetVelocity(0, 0);
@@ -142,8 +138,6 @@ void BallController::RespawnBall() {
 void BallController::HandlePaddleCollision() {
     Ball* ball = GetActor<Ball>();
     Paddle* paddle = GetPaddle();
-    
-    if (!ball || !paddle) return;
     
     sf::FloatRect ballBounds = ball->GetBounds();
     sf::Vector2f paddlePos = paddle->GetPosition();
@@ -178,15 +172,15 @@ void BallController::HandlePaddleCollision() {
 
 void BallController::LaunchBall() {
     Ball* ball = GetActor<Ball>();
-    if (!ball) return;
     
     ball->SetAttachedToPaddle(false);
     ball->SetVelocity(0, -currentSpeed_);
 }
 
 void BallController::HandleBrickCollisions() {
+    if (!scene_) return;
+
     Ball* ball = GetActor<Ball>();
-    if (!ball || !scene_) return;
     
     Brick* collidingBrick = FindCollidingBrick();
     

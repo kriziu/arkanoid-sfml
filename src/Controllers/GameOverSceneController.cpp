@@ -5,25 +5,16 @@ GameOverSceneController::GameOverSceneController() : Controller() {}
 
 GameOverSceneController::~GameOverSceneController() {
     MessageBus::Unsubscribe(MessageType::GameOver, this);
-    MessageBus::Unsubscribe(MessageType::LevelRestarted, this);
 }
 
 void GameOverSceneController::Initialize() {
     MessageBus::Subscribe(MessageType::GameOver, this, 
         [this](const Message& msg) { HandleGameOver(msg); });
-
-    MessageBus::Subscribe(MessageType::LevelRestarted, this, 
-        [this](const Message& msg) { HandleLevelRestarted(msg); });
 }
 
 void GameOverSceneController::HandleGameOver(const Message& message) {
     GameOverScene* gameOverScene = GetScene<GameOverScene>();
     gameOverScene->SetActive(true);
-}
-
-void GameOverSceneController::HandleLevelRestarted(const Message& message) {
-    GameOverScene* gameOverScene = GetScene<GameOverScene>();
-    gameOverScene->Reset();
 }
 
 void GameOverSceneController::HandleEvent(const sf::Event& event) {
@@ -39,6 +30,17 @@ void GameOverSceneController::HandleEvent(const sf::Event& event) {
                 message.type = MessageType::LevelRestarted;
                 message.sender = this;
                 MessageBus::Publish(message);
+
+                gameOverScene->SetActive(false);
+            }
+            
+            if (gameOverScene->IsLevelSelectorButtonClicked(mousePos)) {
+                Message message;
+                message.type = MessageType::ShowLevelSelector;
+                message.sender = this;
+                MessageBus::Publish(message);
+
+                gameOverScene->SetActive(false);
             }
         }
     }
