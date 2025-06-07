@@ -20,6 +20,6 @@ private:
     
     Paddle* paddle_;
     LevelData currentLevel_;
-    sf::Font font_;
+    sf::Font iconsFont_;
     sf::Text livesText_;
 }; 

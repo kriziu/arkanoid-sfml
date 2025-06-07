@@ -6,7 +6,7 @@
 #include "../../include/Utils/Constants.hpp"
 #include <iostream>
 
-GameplayScene::GameplayScene(): livesText_(sf::Text(font_)) {}
+GameplayScene::GameplayScene(): livesText_(sf::Text(iconsFont_)) {}
 
 GameplayScene::~GameplayScene() {}
 
@@ -30,10 +30,10 @@ void GameplayScene::Initialize() {
 }
 
 void GameplayScene::SetupUI() {
-    if (!font_.openFromFile("assets/fonts/icons.ttf")) {
+    if (!iconsFont_.openFromFile("assets/fonts/icons.ttf")) {
         std::cerr << "Failed to load font" << std::endl;
     }
-        livesText_.setFont(font_);
+        livesText_.setFont(iconsFont_);
         livesText_.setCharacterSize(24);
         livesText_.setFillColor(sf::Color::Red);
         livesText_.setPosition({Constants::WINDOW_WIDTH - 40, 
