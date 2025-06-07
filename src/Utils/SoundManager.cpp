@@ -16,7 +16,6 @@ void SoundManager::Initialize() {
 void SoundManager::LoadSound(const std::string& soundName, const std::string& filePath, float volume) {
     sf::SoundBuffer buffer;
     if (!buffer.loadFromFile(filePath)) {
-        printf("Failed to load sound: %s from %s\n", soundName.c_str(), filePath.c_str());
         return;
     }
     
@@ -24,30 +23,24 @@ void SoundManager::LoadSound(const std::string& soundName, const std::string& fi
     sounds_[soundName] = std::make_unique<sf::Sound>(soundBuffers_[soundName]);
     sounds_[soundName]->setVolume(volume);
     
-    printf("Successfully loaded sound: %s (volume: %.1f)\n", soundName.c_str(), volume);
 }
 
 void SoundManager::PlaySound(const std::string& soundName) {
     auto it = sounds_.find(soundName);
     if (it != sounds_.end() && it->second) {
-        printf("Playing sound: %s\n", soundName.c_str());
         it->second->play();
-    } else {
-        printf("Sound not found or invalid: %s\n", soundName.c_str());
-    }
+    } 
 }
 
 void SoundManager::PlayMusic(const std::string& musicName, bool loop, float volume) {
     std::string musicPath = "assets/music/" + musicName + ".ogg";
     if (!backgroundMusic_.openFromFile(musicPath)) {
-        printf("Failed to load music: %s from %s\n", musicName.c_str(), musicPath.c_str());
         return;
     }
     
     backgroundMusic_.setLooping(loop);
     backgroundMusic_.setVolume(volume);
     backgroundMusic_.play();
-    printf("Playing music: %s (volume: %.1f, loop: %s)\n", musicName.c_str(), volume, loop ? "true" : "false");
 }
 
 void SoundManager::StopMusic() {
