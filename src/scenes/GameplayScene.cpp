@@ -37,7 +37,7 @@ void GameplayScene::SetupUI() {
         livesText_.setCharacterSize(24);
         livesText_.setFillColor(sf::Color::Red);
         livesText_.setPosition({Constants::WINDOW_WIDTH - 40, 
-        Constants::WINDOW_HEIGHT / 2 + 36 });
+        Constants::WINDOW_HEIGHT - 130 });
 }
 
 void GameplayScene::Draw(sf::RenderWindow& window) {
