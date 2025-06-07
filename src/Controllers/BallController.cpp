@@ -220,7 +220,7 @@ void BallController::ProcessBrickCollision(Brick* brick) {
     Ball* ball = GetActor<Ball>();
 
     if (brick->GetType() != BrickType::Unbreakable) {
-        Core::PlayMeowSound();
+        Core::PlayBrickBreakSound();
     }
 
     brick->TakeDamage(1);

@@ -15,7 +15,7 @@ public:
     void AddScene(Scene* scene);
     void RemoveScene(Scene* sceneToRemove);
     
-    static void PlayMeowSound();
+    static void PlayBrickBreakSound();
 
 private:
     void ProcessEvents();
@@ -29,6 +29,6 @@ private:
     std::vector<Scene*> scenes_;
     sf::Music backgroundMusic_;
     
-    static sf::SoundBuffer meowSoundBuffer_;
-    static std::unique_ptr<sf::Sound> meowSound_;
+    static sf::SoundBuffer brickBreakSoundBuffer_;
+    static std::unique_ptr<sf::Sound> brickBreakSound_;
 }; 
