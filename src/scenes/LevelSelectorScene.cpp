@@ -6,7 +6,8 @@
 
 LevelSelectorScene::LevelSelectorScene() : currentPage_(0), totalPages_(0),
     titleText_(sf::Text(font_)), pageText_(sf::Text(font_)), 
-    nextPageText_(sf::Text(font_)), prevPageText_(sf::Text(font_)) {}
+    nextPageText_(sf::Text(font_)), prevPageText_(sf::Text(font_)),
+    creditsText_(sf::Text(font_)) {}
 
 LevelSelectorScene::~LevelSelectorScene() {}
 
@@ -122,6 +123,17 @@ void LevelSelectorScene::SetupUI() {
         prevButtonPos.x + (prevButtonSize.x - prevBounds.size.x) / 2 - prevBounds.position.x,
         prevButtonPos.y + (prevButtonSize.y - prevBounds.size.y) / 2 - prevBounds.position.y
     ));
+    
+    creditsText_.setFont(font_);
+    creditsText_.setString("Created by Kacper Wojak and Bruno Dziecielski");
+    creditsText_.setCharacterSize(12);
+    creditsText_.setFillColor(sf::Color(200, 200, 200));
+    
+    sf::FloatRect creditsBounds = creditsText_.getLocalBounds();
+    creditsText_.setPosition(sf::Vector2f(
+        8,
+        Constants::WINDOW_HEIGHT - creditsBounds.size.y - 8
+    ));
 }
 
 void LevelSelectorScene::UpdatePageDisplay() {
@@ -204,6 +216,8 @@ void LevelSelectorScene::Draw(sf::RenderWindow& window) {
         window.draw(brickCountText);
     }
     
+    window.draw(creditsText_);
+    
     Scene::Draw(window);
 }
 
@@ -241,4 +255,3 @@ bool LevelSelectorScene::IsPrevPageButtonClicked(const sf::Vector2f& mousePos) c
     if (currentPage_ <= 0) return false;
     return prevPageButton_.getGlobalBounds().contains(mousePos);
 }
-
