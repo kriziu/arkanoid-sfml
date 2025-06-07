@@ -55,7 +55,9 @@ void LevelSelectorScene::LoadLevelFiles() {
     
     std::sort(levels_.begin(), levels_.end(), 
         [](const LevelInfo& a, const LevelInfo& b) {
-            return a.displayName < b.displayName;
+            int numA = std::stoi(a.displayName.substr(a.displayName.find(' ') + 1));
+            int numB = std::stoi(b.displayName.substr(b.displayName.find(' ') + 1));
+            return numA < numB;
         });
     
     totalPages_ = (levels_.size() + GetLevelsPerPage() - 1) / GetLevelsPerPage();
