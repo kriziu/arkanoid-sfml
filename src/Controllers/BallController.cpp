@@ -5,13 +5,21 @@
 #include "../../include/Scenes/Scene.hpp"
 #include "../../include/Utils/Constants.hpp"
 #include "../../include/Utils/MessageBus.hpp"
-#include "../../include/Core/Core.hpp"
+#include "../../include/Utils/SoundManager.hpp"
 #include <cmath>
-
 
 BallController::BallController() : Controller(), lastPaddlePosition_(0, 0), paddleVelocity_(0, 0) {}
 
 BallController::~BallController() {}
+
+void BallController::ClampVelocity(sf::Vector2f& velocity) {
+    const float maxVelocity = Constants::BALL_MAX_VELOCITY;
+    if (velocity.x > maxVelocity) velocity.x = maxVelocity;
+    else if (velocity.x < -maxVelocity) velocity.x = -maxVelocity;
+    
+    if (velocity.y > maxVelocity) velocity.y = maxVelocity;
+    else if (velocity.y < -maxVelocity) velocity.y = -maxVelocity;
+}
 
 void BallController::Initialize() {
     currentSpeed_ = INITIAL_SPEED;
@@ -106,6 +114,7 @@ void BallController::HandleWallCollisions() {
     }
     
     if (velocityChanged) {
+        ClampVelocity(velocity);
         ball->SetVelocity(velocity.x, velocity.y);
     }
 }
@@ -117,11 +126,13 @@ void BallController::HandleBallLost() {
     ball->DecrementLives();
     
     if (ball->GetLives() <= 0) {
+        SoundManager::PlaySound("game_over");
         Message gameOverMessage;
         gameOverMessage.type = MessageType::GameOver;
         gameOverMessage.sender = this;
         MessageBus::Publish(gameOverMessage);
     } else {
+        SoundManager::PlaySound("life_loss");
         RespawnBall();
     }
 }
@@ -164,6 +175,7 @@ void BallController::HandlePaddleCollision() {
             
             velocity.x += paddleVelocity_.x * 0.3f;
             
+            ClampVelocity(velocity);
             ball->SetVelocity(velocity.x, velocity.y);
             ball->SetPosition(ballPos.x, paddlePos.y - ball->BALL_RADIUS);
         }
@@ -209,7 +221,7 @@ void BallController::ProcessBrickCollision(Brick* brick) {
     Ball* ball = GetActor<Ball>();
 
     if (brick->GetType() != BrickType::Unbreakable) {
-        Core::PlayMeowSound();
+        SoundManager::PlaySound("brick_break");
     }
 
     brick->TakeDamage(1);
@@ -219,6 +231,7 @@ void BallController::ProcessBrickCollision(Brick* brick) {
     
     CalculateCollisionResponse(brick, velocity, newPosition);
     
+    ClampVelocity(velocity);
     ball->SetVelocity(velocity.x, velocity.y);
     ball->SetPosition(newPosition.x, newPosition.y);
 }
