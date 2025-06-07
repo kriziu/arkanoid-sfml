@@ -1,5 +1,6 @@
 #include "../../include/Controllers/GameplaySceneController.hpp"
 #include "../../include/Scenes/GameplayScene.hpp"
+#include "../../include/Actors/Ball.hpp"
 
 GameplaySceneController::GameplaySceneController() : Controller() {}
 
@@ -28,6 +29,12 @@ void GameplaySceneController::HandleGameOver(const Message& message) {
 void GameplaySceneController::HandleLevelRestarted(const Message& message) {
     GameplayScene* gameplayScene = GetScene<GameplayScene>();
     gameplayScene->Reset();
+    
+    Ball* ball = gameplayScene->GetActor<Ball>();
+    if (ball) {
+        ball->SetInitialLaunchBlocked(false);
+    }
+    
     gameplayScene->SetActive(true);
 }
 

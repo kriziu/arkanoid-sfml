@@ -8,7 +8,7 @@ sf::Music SoundManager::backgroundMusic_;
 void SoundManager::Initialize() {
     LoadSound("brick_break", "assets/music/brick_brake.ogg", 20.f);
     LoadSound("game_over", "assets/music/game_over.ogg", 50.f);
-    LoadSound("life_loss", "assets/music/live_loss.ogg", 40.f);
+    LoadSound("life_loss", "assets/music/live_loss.ogg", 20.f);
     
     PlayMusic("background", true, 10.f);
 }
