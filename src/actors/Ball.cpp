@@ -1,6 +1,6 @@
 #include "../../include/Actors/Ball.hpp"
 
-Ball::Ball() : Actor(), velocity_(0, 0), attachedToPaddle_(true), lives_(3) {}
+Ball::Ball() : Actor(), velocity_(0, 0), attachedToPaddle_(true), initialLaunchBlocked_(true), lives_(3) {}
 
 Ball::~Ball() {}
 
@@ -39,8 +39,16 @@ bool Ball::IsAttachedToPaddle() const {
     return attachedToPaddle_;
 }
 
+bool Ball::IsInitialLaunchBlocked() const {
+    return initialLaunchBlocked_;
+}
+
 void Ball::SetAttachedToPaddle(bool attached) {
     attachedToPaddle_ = attached;
+}
+
+void Ball::SetInitialLaunchBlocked(bool blocked) {
+    initialLaunchBlocked_ = blocked;
 }
 
 sf::FloatRect Ball::GetBounds() const {

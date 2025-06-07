@@ -47,7 +47,6 @@ void GameplayScene::Draw(sf::RenderWindow& window) {
 
 void GameplayScene::DrawLivesDisplay(sf::RenderWindow& window) {
     Ball* ball = GetActor<Ball>();
-    if (!ball) return;
     
     int lives = ball->GetLives();
     sf::String heartsText = "";
