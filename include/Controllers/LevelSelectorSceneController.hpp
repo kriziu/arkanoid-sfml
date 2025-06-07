@@ -13,5 +13,5 @@ public:
     void HandleEvent(const sf::Event& event) override;
 
 private:
-    void HandleLevelSelected(const std::string& levelFile);
+    void HandleShowLevelSelector(const Message& message);
 }; 

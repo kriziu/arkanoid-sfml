@@ -4,9 +4,19 @@
 
 LevelSelectorSceneController::LevelSelectorSceneController() : Controller() {}
 
-LevelSelectorSceneController::~LevelSelectorSceneController() {}
+LevelSelectorSceneController::~LevelSelectorSceneController() {
+    MessageBus::Unsubscribe(MessageType::ShowLevelSelector, this);
+}
 
-void LevelSelectorSceneController::Initialize() {}
+void LevelSelectorSceneController::Initialize() {
+    MessageBus::Subscribe(MessageType::ShowLevelSelector, this, 
+        [this](const Message& msg) { HandleShowLevelSelector(msg); });
+}
+
+void LevelSelectorSceneController::HandleShowLevelSelector(const Message& message) {
+    LevelSelectorScene* levelSelectorScene = GetScene<LevelSelectorScene>();
+    levelSelectorScene->SetActive(true);
+}
 
 void LevelSelectorSceneController::HandleEvent(const sf::Event& event) {
     LevelSelectorScene* levelSelectorScene = GetScene<LevelSelectorScene>();
@@ -39,11 +49,3 @@ void LevelSelectorSceneController::HandleEvent(const sf::Event& event) {
         }
     }
 }
-
-void LevelSelectorSceneController::HandleLevelSelected(const std::string& levelFile) {
-    Message message;
-    message.type = MessageType::LevelSelected;
-    message.sender = this;
-    message.payload = levelFile;
-    MessageBus::Publish(message);
-} 

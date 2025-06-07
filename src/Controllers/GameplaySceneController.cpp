@@ -37,4 +37,4 @@ void GameplaySceneController::HandleLevelSelected(const Message& message) {
     gameplayScene->SetLevelFilename(levelFilename);
     gameplayScene->Reset();
     gameplayScene->SetActive(true);
-} 
+}
