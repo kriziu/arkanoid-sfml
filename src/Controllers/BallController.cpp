@@ -5,7 +5,7 @@
 #include "../../include/Scenes/Scene.hpp"
 #include "../../include/Utils/Constants.hpp"
 #include "../../include/Utils/MessageBus.hpp"
-#include "../../include/Core/Core.hpp"
+#include "../../include/Utils/SoundManager.hpp"
 #include <cmath>
 
 BallController::BallController() : Controller(), lastPaddlePosition_(0, 0), paddleVelocity_(0, 0) {}
@@ -127,11 +127,13 @@ void BallController::HandleBallLost() {
     ball->DecrementLives();
     
     if (ball->GetLives() <= 0) {
+        SoundManager::PlaySound("game_over");
         Message gameOverMessage;
         gameOverMessage.type = MessageType::GameOver;
         gameOverMessage.sender = this;
         MessageBus::Publish(gameOverMessage);
     } else {
+        SoundManager::PlaySound("life_loss");
         RespawnBall();
     }
 }
@@ -220,7 +222,7 @@ void BallController::ProcessBrickCollision(Brick* brick) {
     Ball* ball = GetActor<Ball>();
 
     if (brick->GetType() != BrickType::Unbreakable) {
-        Core::PlayBrickBreakSound();
+        SoundManager::PlaySound("brick_break");
     }
 
     brick->TakeDamage(1);
