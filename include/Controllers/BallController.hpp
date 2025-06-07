@@ -24,6 +24,7 @@ private:
     void LaunchBall();
     void HandleBallLost();
     void RespawnBall();
+    void ClampVelocity(sf::Vector2f& velocity);
     
     Brick* FindCollidingBrick();
     void ProcessBrickCollision(Brick* brick);

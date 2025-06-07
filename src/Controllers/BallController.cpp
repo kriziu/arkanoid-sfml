@@ -8,10 +8,19 @@
 #include "../../include/Core/Core.hpp"
 #include <cmath>
 
-
 BallController::BallController() : Controller(), lastPaddlePosition_(0, 0), paddleVelocity_(0, 0) {}
 
 BallController::~BallController() {}
+
+void BallController::ClampVelocity(sf::Vector2f& velocity) {
+    const float MAX_VELOCITY = 1000.0f;
+    
+    if (velocity.x > MAX_VELOCITY) velocity.x = MAX_VELOCITY;
+    else if (velocity.x < -MAX_VELOCITY) velocity.x = -MAX_VELOCITY;
+    
+    if (velocity.y > MAX_VELOCITY) velocity.y = MAX_VELOCITY;
+    else if (velocity.y < -MAX_VELOCITY) velocity.y = -MAX_VELOCITY;
+}
 
 void BallController::Initialize() {
     currentSpeed_ = INITIAL_SPEED;
@@ -106,6 +115,7 @@ void BallController::HandleWallCollisions() {
     }
     
     if (velocityChanged) {
+        ClampVelocity(velocity);
         ball->SetVelocity(velocity.x, velocity.y);
     }
 }
@@ -164,6 +174,7 @@ void BallController::HandlePaddleCollision() {
             
             velocity.x += paddleVelocity_.x * 0.3f;
             
+            ClampVelocity(velocity);
             ball->SetVelocity(velocity.x, velocity.y);
             ball->SetPosition(ballPos.x, paddlePos.y - ball->BALL_RADIUS);
         }
@@ -219,6 +230,7 @@ void BallController::ProcessBrickCollision(Brick* brick) {
     
     CalculateCollisionResponse(brick, velocity, newPosition);
     
+    ClampVelocity(velocity);
     ball->SetVelocity(velocity.x, velocity.y);
     ball->SetPosition(newPosition.x, newPosition.y);
 }
