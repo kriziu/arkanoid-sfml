@@ -13,13 +13,12 @@ BallController::BallController() : Controller(), lastPaddlePosition_(0, 0), padd
 BallController::~BallController() {}
 
 void BallController::ClampVelocity(sf::Vector2f& velocity) {
-    const float MAX_VELOCITY = 1000.0f;
+    const float maxVelocity = Constants::BALL_MAX_VELOCITY;
+    if (velocity.x > maxVelocity) velocity.x = maxVelocity;
+    else if (velocity.x < -maxVelocity) velocity.x = -maxVelocity;
     
-    if (velocity.x > MAX_VELOCITY) velocity.x = MAX_VELOCITY;
-    else if (velocity.x < -MAX_VELOCITY) velocity.x = -MAX_VELOCITY;
-    
-    if (velocity.y > MAX_VELOCITY) velocity.y = MAX_VELOCITY;
-    else if (velocity.y < -MAX_VELOCITY) velocity.y = -MAX_VELOCITY;
+    if (velocity.y > maxVelocity) velocity.y = maxVelocity;
+    else if (velocity.y < -maxVelocity) velocity.y = -maxVelocity;
 }
 
 void BallController::Initialize() {
