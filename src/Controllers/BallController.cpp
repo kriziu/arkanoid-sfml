@@ -1,3 +1,5 @@
+#define _USE_MATH_DEFINES
+
 #include "../../include/Controllers/BallController.hpp"
 #include "../../include/Actors/Ball.hpp"
 #include "../../include/Actors/Paddle.hpp"
