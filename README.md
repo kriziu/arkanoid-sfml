@@ -136,41 +136,14 @@ cmake  --build  .
 Pliki poziomów zapisuje się w katalogu `levels/` w formacie `.level`. Przykład:
 
 ```
-
-
-
 # Format: szerokość wysokość odstęp padding_x padding_y
-
-
-
 13 8 5 20 20
-
-
-
 1111111111111
-
-
-
 1.1.1.1.1.1.1
-
-
-
 2.2.2.2.2.2.2
-
-
-
 2222222222222
-
-
-
 XX...XXX...XX
-
-
-
 ..111...111..
-
-
-
 ```
 
 **Legenda znaków:**
@@ -193,6 +166,18 @@ Zastosowanie wzorca actor-controller umożliwiło budowę gry, gdzie aktorzy mog
 
 Luźna komunikacja między obiektami pozwoliła na eliminację bezpośrednich zależności i zwiększyła przejrzystość kodu.
 
+### Zasoby retro
+
+Strony [OpenGameArt.org](https://opengameart.org/) oraz [Kenney.nl](https://kenney.nl/) zawierają bardzo fajne retro dźwięki oraz retro grafiki - serdecznie polecamy odwiedzenie!
+
+### Format poziomów .level
+
+Stworzenie prostego, czytelnego formatu tekstowego do definiowania poziomów okazało się bardzo praktyczne. Umożliwia łatwe projektowanie poziomów bez specjalistycznych narzędzi.
+
+### Modularność kontrolerów
+
+Każdy typ obiektu ma dedykowany kontroler, co umożliwia łatwe dodawanie nowych typów cegieł czy mechanik bez modyfikacji istniejącego kodu.
+
 ## Podsumowanie
 
 ### Zrealizowane cele:
@@ -214,6 +199,8 @@ Luźna komunikacja między obiektami pozwoliła na eliminację bezpośrednich za
 - Wzorzec scena-actor-controller sprawdził się dobrze w projektowaniu gry.
 
 - SFML zapewniła wszystkie niezbędne funkcje do realizacji projektu.
+
+- Praca zespołowa pozwoliła na rozwój wiedzy w zakresie git oraz githuba
 
 ### Napotkane problemy:
 
