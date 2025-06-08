@@ -1,235 +1,234 @@
 # Arkanoid SFML
 
-Implementacja klasycznej gry Arkanoid wykorzystująca bibliotekę SFML 3.0.1.
+## Autorzy
 
-## Opis Gry
+**Zespół projektowy:**
 
-Arkanoid to klasyczna gra zręcznościowa, w której gracz kontroluje platformę (paddle) u dołu ekranu, odbijając piłkę w celu zniszczenia wszystkich cegieł na planszy. Gra zawiera różne typy cegieł o różnej wytrzymałości oraz system poziomów z możliwością tworzenia własnych map.
+- **Kacper Wojak**
 
-## Struktura Projektu
+- **Bruno Dzięcielski**
 
-```
-arkanoid-sfml/
-├── include/                    # Pliki nagłówkowe
-│   ├── Core/                  # Podstawowe klasy zarządzające grą
-│   ├── Actors/                # Obiekty gry (Paddle, Ball, Brick)
-│   ├── Controllers/           # Komponenty logiki dołączane do aktorów/scen
-│   ├── Scenes/                # Sceny gry (menu, rozgrywka)
-│   └── Utils/                 # Klasy narzędziowe (MessageBus, SoundManager)
-├── src/                       # Implementacje klas
-├── assets/                    # Zasoby gry
-│   ├── music/                 # Pliki dźwiękowe
-│   └── fonts/                 # Czcionki
-├── levels/                    # Pliki poziomów
-└── build/                     # Katalog budowania
-```
+_Informatyka niestacjonarna, 1 rok, 2 semestr_
 
-## Wymagania Systemowe
+## Opis Projektu
 
-### Wymagania
+### Cel
 
-- CMake 3.16 lub nowszy
-- Kompilator zgodny z C++17
-- SFML 3.0.1
+Celem projektu było stworzenie gry typu Arkanoid przy użyciu biblioteki SFML. Projekt opiera się na architekturze actor-controller z systemem komunikacji między obiektami.
 
-### Kompilacja
+### Założenia
 
-```bash
-mkdir build
-cd build
-cmake ..
-cmake --build .
-```
+**Podstawowe założenia:**
 
-Po kompilacji upewnij się, że katalogi `levels/` i `assets/` znajdują się w tym samym katalogu co plik wykonywalny.
+- Obsługa kolizji piłki z otoczeniem i paletką
 
-## Architektura Gry
+- Sterowanie paletką za pomocą klawiatury lub myszy
 
-Projekt wykorzystuje wzorzec actor-controller z systemem komunikacji opartym na wiadomościach:
+- System punktacji oraz ekran końca gry
 
-### 1. Core (Rdzeń)
+- Implementacja w C++17 z użyciem SFML
 
-- **Główny kontroler gry** zarządzający pętlą gry i scenami
-- Odpowiada za przełączanie między scenami
-- Może zarządzać wieloma scenami jednocześnie
+**Planowane rozszerzenia:**
 
-### 2. Scene (Scena)
+- Różne poziomy trudności
 
-- **Kontener dla aktorów** reprezentujący ekran gry
-- Przechowuje listę aktorów i kontrolerów na poziomie sceny
-- Może wysyłać i odbierać wiadomości przez MessageBus
+- Edytor poziomów pozwalający na tworzenie własnych plansz
 
-### 3. Actor (Aktor)
+### Zrealizowane Funkcjonalności
 
-- **Obiekt gry** z pozycją, rozmiarem i reprezentacją wizualną
-- Może zawierać wiele kontrolerów (kompozycja)
-- Dostępne typy: Ball, Paddle, Brick
+- Pełna rozgrywka Arkanoid z piłką, platformą i cegłami
 
-### 4. Controller (Kontroler)
+- System poziomów z ładowaniem plansz z plików `.level`
 
-- **Klasa abstrakcyjna** definiująca logikę i zachowanie
-- Może być dołączony do aktora lub sceny
-- Może subskrybować i wysyłać wiadomości przez MessageBus
+- Cegły o różnej wytrzymałości
 
-### 5. MessageBus (Magistrala Wiadomości)
+- System dźwięków: muzyka w tle i efekty dźwiękowe
 
-- **Statyczna klasa** obsługująca komunikację między komponentami
-- Wspiera publikowanie i subskrybowanie wiadomości
-- Używana do rozdzielenia odpowiedzialności (np. Cegła zniszczona → Wynik zaktualizowany)
+- System scen: menu główne, gra, ekran końca
 
-## Komponenty Gry
+- Edytor poziomów na podstawie plików tekstowych
 
-### Aktorzy (Actors)
+### Architektura
 
-#### Ball (Piłka)
+Projekt podzielono na kilka głównych komponentów:
 
-- Porusza się po planszy z określoną prędkością
-- Odbija się od ścian, platformy i cegieł
-- Zarządzana przez `BallController`
+#### Core
 
-#### Paddle (Platforma)
+Główny kontroler zarządzający grą oraz przełączaniem scen.
 
-- Kontrolowana przez gracza
-- Porusza się poziomo u dołu ekranu
-- Odbija piłkę pod różnymi kątami w zależności od punktu odbicia
-- Zarządzana przez `PaddleController`
+#### Scena
 
-#### Brick (Cegła)
+Reprezentacja ekranu gry zawierająca wszystkie aktywne obiekty.
 
-- Statyczne obiekty do zniszczenia
-- Różne typy o różnej wytrzymałości:
-  - **Normalna cegła** (czerwona, 1 punkt życia)
-  - **Wytrzymała cegła** (niebieska, 2 punkty życia)
-  - **Niezniszczalna cegła** (szara, nie można zniszczyć)
-- Zarządzana przez `BrickController`
+#### Aktorzy
 
-### Kontrolery (Controllers)
+Obiekty gry posiadające pozycję, rozmiar i wizualizację:
 
-#### BallController
+- **Ball** — piłka
 
-- Obsługuje ruch piłki i kolizje
-- Wykrywa odbicia od ścian, platformy i cegieł
-- Wysyła wiadomości o zdarzeniach kolizji
+- **Paddle** — paletka
 
-#### PaddleController
+- **Brick** — cegły
 
-- Obsługuje sterowanie platformą przez gracza
-- Reaguje na input z myszy
+#### Kontrolery
 
-#### BrickController
+Logika przypisana do aktorów lub scen:
 
-- Zarządza stanem cegły i jej zniszczeniem
-- Wysyła wiadomość gdy cegła zostanie zniszczona
+- **BallController** — ruch piłki i wykrywanie kolizji
 
-#### Kontrolery Scen
+- **PaddleController** — obsługa sterowania paletką
 
-- **GameplaySceneController**: Zarządza logiką rozgrywki
-- **GameOverSceneController**: Obsługuje ekran końca gry
-- **LevelSelectorSceneController**: Zarządza wyborem poziomu
-
-### Sceny (Scenes)
-
-#### GameplayScene
-
-- Główna scena rozgrywki
-- Zawiera wszystkie obiekty gry i zarządza rozgrywką
-
-#### GameOverScene
-
-- Wyświetlana po zakończeniu gry
-- Umożliwia restart lub powrót do menu
-
-#### LevelSelectorScene
-
-- Umożliwia wybór poziomu do gry
-- Wyświetla dostępne poziomy
-
-### Narzędzia (Utils)
+- **BrickController** — zarządzanie stanem cegieł
 
 #### MessageBus
 
-- Centralny system komunikacji
-- Typy wiadomości: BrickDestroyed, BallLost, LifeLost, GameOver, LevelComplete
+System komunikacji umożliwiający przesyłanie wiadomości między obiektami bez bezpośrednich zależności.
 
-#### SoundManager
+### Wymagania
 
-- Zarządza dźwiękami gry
-- Obsługuje efekty dźwiękowe i muzykę tła
+- **CMake** 3.16 lub nowszy
 
-#### LevelLoader
+- Kompilator zgodny z C++17
 
-- Ładuje poziomy z plików `.level`
-- Tworzy obiekty cegieł na podstawie danych z pliku
+- **SFML** 3.0.1
 
-## System Poziomów
+## Instrukcja Uruchomienia
 
-### Format Pliku Poziomu
+```bash
+# Klonowanie repozytorium
+git  clone  https://github.com/kriziu/arkanoid-sfml.git
+cd  arkanoid-sfml
 
-Poziomy są przechowywane w plikach `.level` w katalogu `levels/`:
+# Budowanie projektu
+mkdir  build
+cd  build
+cmake  ..
+cmake  --build  .
 
+# Uruchamianie gry (upewnij się, że katalogi levels/ i assets/ są dostępne)
+./arkanoid-sfml
 ```
-<szerokość> <wysokość> <odstęp> <padding_x> <padding_y>
-<linia_1_cegieł>
-<linia_2_cegieł>
-...
-```
-
-**Typy cegieł:**
-
-- `1` - Normalna cegła (czerwona, 1 trafienie)
-- `2` - Wytrzymała cegła (niebieska, 2 trafienia)
-- `X` - Niezniszczalna cegła (szara)
-- `.` - Puste miejsce
-
-**Przykład:**
-
-```
-13 8 5 20 20
-1111111111111
-1.1.1.1.1.1.1
-2.2.2.2.2.2.2
-2222222222222
-XX...XXX...XX
-..111...111..
-```
-
-### Tworzenie Własnych Poziomów
-
-1. Utwórz plik `.level` w katalogu `levels/`
-2. Zdefiniuj nagłówek z rozmiarem siatki i właściwościami
-3. Zaprojektuj układ cegieł używając kodów znaków
-4. Przetestuj poziom w grze
-
-## Dźwięki i Muzyka
-
-Gra zawiera różnorodne efekty dźwiękowe i muzykę tła:
-
-- **background.ogg** - Muzyka tła podczas rozgrywki
-- **brick_break.ogg** - Dźwięk niszczenia cegły
-- **life_loss.ogg** - Dźwięk utraty życia
-- **game_over.ogg** - Dźwięk końca gry
-- **win.ogg** - Dźwięk wygranej
-
-**Źródła dźwięków:**
-
-- [OpenGameArt.org](https://opengameart.org)
-- [Kenney.nl Assets](https://kenney.nl/assets)
 
 ## Sterowanie
 
-- **Strzałki lewo/prawo** lub **A/D** - Poruszanie platformą
-- **Spacja** - Start gry/Restart
-- **Escape** - Powrót do menu
+- **Mysz** — poruszanie paletką, obsługa menu
 
-## Rozszerzanie Gry
+- **Lewy przycisk myszy** — rozpoczęcie gry lub restart
 
-Architektura modularna umożliwia łatwe dodawanie nowych funkcji:
+## Zasady Gry
 
-1. **Nowe typy cegieł** - Dodaj nowy typ w `BrickController`
-2. **Power-upy** - Utwórz nowy `Actor` z odpowiednim `Controller`
-3. **Nowe sceny** - Dziedzicz po klasie `Scene`
-4. **Dodatkowe efekty** - Użyj `MessageBus` do komunikacji między komponentami
+1. Wybór poziomu z menu głównego.
+
+2. Odbijanie piłki przy pomocy paletki.
+
+3. Zniszczenie wszystkich cegieł na planszy.
+
+**Rodzaje cegieł:**
+
+- **Pomarańczowe** — Zwykła cegła - 1 trafienie
+
+- **Niebieskie** — Wytrzymała cegła - 2 trafienia
+
+- **Szare** — Niezniszczalna cegła
+
+## Tworzenie Własnych Poziomów
+
+Pliki poziomów zapisuje się w katalogu `levels/` w formacie `.level`. Przykład:
+
+```
+
+
+
+# Format: szerokość wysokość odstęp padding_x padding_y
+
+
+
+13 8 5 20 20
+
+
+
+1111111111111
+
+
+
+1.1.1.1.1.1.1
+
+
+
+2.2.2.2.2.2.2
+
+
+
+2222222222222
+
+
+
+XX...XXX...XX
+
+
+
+..111...111..
+
+
+
+```
+
+**Legenda znaków:**
+
+- `1` — normalna cegła
+
+- `2` — wytrzymała cegła
+
+- `X` — niezniszczalna cegła
+
+- `.` — puste miejsce
+
+## Ciekawostki
+
+### Architektura Actor-Controller
+
+Zastosowanie wzorca actor-controller umożliwiło budowę gry, gdzie aktorzy mogą mieć przypisane różne kontrolery, co zwiększyło elastyczność rozwiązania.
+
+### System MessageBus
+
+Luźna komunikacja między obiektami pozwoliła na eliminację bezpośrednich zależności i zwiększyła przejrzystość kodu.
+
+## Podsumowanie
+
+### Zrealizowane cele:
+
+- Odbijanie piłki i system kolizji
+
+- Sterowanie paletką przy pomocy myszy
+
+- System punktacji i ekran końca gry
+
+### Dodatkowe funkcjonalności:
+
+- System poziomów i edytor poziomów
+
+- Efekty dźwiękowe z muzyką w tle
+
+### Wnioski
+
+- Wzorzec scena-actor-controller sprawdził się dobrze w projektowaniu gry.
+
+- SFML zapewniła wszystkie niezbędne funkcje do realizacji projektu.
+
+### Napotkane problemy:
+
+- Konfiguracja projektu w CMake.
+
+- Implementacja architektury sceny, aktora i kontrolera wymagała dokładnego zaplanowania i testów.
+
+## Propozycje Rozwoju
+
+- Power-upy, np. szybka piłka, większa paletka
+
+- Wykorzystanie tekstur i sprite'ów
+
+- Dodanie tła w zależności od poziomu
 
 ## Licencja
 
-Projekt stworzony do celów edukacyjnych. Dźwięki pochodzą z darmowych zasobów OpenGameArt.org i Kenney.nl.
+Projekt stworzony do celów edukacyjnych. Dźwięki pochodzą z darmowych zasobów [OpenGameArt.org](https://opengameart.org/) oraz [Kenney.nl](https://kenney.nl/).
