@@ -1,37 +1,41 @@
-#include "../../include/Controllers/BrickTrackerController.hpp"
+#include "../../include/Controllers/LevelTrackerController.hpp"
 #include "../../include/Actors/Brick.hpp"
 #include "../../include/Scenes/Scene.hpp"
 #include "../../include/Utils/SoundManager.hpp"
 
-BrickTrackerController::BrickTrackerController() : Controller() {}
+LevelTrackerController::LevelTrackerController() : Controller() {}
 
-BrickTrackerController::~BrickTrackerController() {
+LevelTrackerController::~LevelTrackerController() {
     MessageBus::Unsubscribe(MessageType::BrickDestroyed, this);
 }
 
-void BrickTrackerController::Initialize() {
+void LevelTrackerController::Initialize() {
+    levelStartTime_ = std::chrono::steady_clock::now();
     MessageBus::Subscribe(MessageType::BrickDestroyed, this,
         [this](const Message& msg) { HandleBrickDestroyed(msg); });
 }
 
-void BrickTrackerController::HandleBrickDestroyed(const Message& message) {
+void LevelTrackerController::HandleBrickDestroyed(const Message& message) {
     CheckWinCondition();
 }
 
-void BrickTrackerController::CheckWinCondition() {
+void LevelTrackerController::CheckWinCondition() {
     int remainingBreakableBricks = CountBreakableBricks();
     
     if (remainingBreakableBricks == 0) {
         SoundManager::PlaySound("win");
         
+        float elapsedTime = GetElapsedTime();
+        
         Message levelCompleteMessage;
         levelCompleteMessage.type = MessageType::LevelComplete;
         levelCompleteMessage.sender = this;
+        levelCompleteMessage.payload = elapsedTime;
         MessageBus::Publish(levelCompleteMessage);
     }
 }
 
-int BrickTrackerController::CountBreakableBricks() {
+int LevelTrackerController::CountBreakableBricks() {
     if (!scene_) return 0;
     
     int count = 0;
@@ -45,4 +49,10 @@ int BrickTrackerController::CountBreakableBricks() {
     }
     
     return count;
-} 
+}
+
+float LevelTrackerController::GetElapsedTime() const {
+    auto currentTime = std::chrono::steady_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - levelStartTime_);
+    return duration.count() / 1000.0f;
+}

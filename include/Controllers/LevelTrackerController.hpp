@@ -1,11 +1,12 @@
 #pragma once
 #include "Controller.hpp"
 #include "../../include/Utils/MessageBus.hpp"
+#include <chrono>
 
-class BrickTrackerController : public Controller {
+class LevelTrackerController : public Controller {
 public:
-    BrickTrackerController();
-    ~BrickTrackerController() override;
+    LevelTrackerController();
+    ~LevelTrackerController() override;
     
     void Initialize() override;
     
@@ -13,4 +14,7 @@ private:
     void HandleBrickDestroyed(const Message& message);
     void CheckWinCondition();
     int CountBreakableBricks();
+    
+    std::chrono::steady_clock::time_point levelStartTime_;
+    float GetElapsedTime() const;
 }; 

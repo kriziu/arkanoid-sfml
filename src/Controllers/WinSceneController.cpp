@@ -1,6 +1,8 @@
 #include "../../include/Controllers/WinSceneController.hpp"
 #include "../../include/Scenes/WinScene.hpp"
 #include "../../include/Utils/MessageBus.hpp"
+#include <any>
+#include <iostream>
 
 WinSceneController::WinSceneController() : Controller() {}
 
@@ -15,6 +17,10 @@ void WinSceneController::Initialize() {
 
 void WinSceneController::HandleLevelComplete(const Message& message) {
     WinScene* winScene = GetScene<WinScene>();
+    
+    float completionTime = std::any_cast<float>(message.payload);
+    winScene->SetCompletionTime(completionTime);
+  
     winScene->SetActive(true);
 }
 

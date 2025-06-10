@@ -7,7 +7,7 @@
 #include "../include/Controllers/GameOverSceneController.hpp"
 #include "../include/Controllers/WinSceneController.hpp"
 #include "../include/Controllers/LevelSelectorSceneController.hpp"
-#include "../include/Controllers/BrickTrackerController.hpp"
+#include "../include/Controllers/LevelTrackerController.hpp"
 #include "../include/Utils/Constants.hpp"
 
 int main() {
@@ -18,7 +18,7 @@ int main() {
     
     GameplayScene* gameplayScene = new GameplayScene();
     gameplayScene->AddController(new GameplaySceneController());
-    gameplayScene->AddController(new BrickTrackerController());
+    gameplayScene->AddController(new LevelTrackerController());
 
     GameOverScene* gameOverScene = new GameOverScene();
     gameOverScene->AddController(new GameOverSceneController());

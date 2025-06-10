@@ -1,10 +1,12 @@
 #include <iostream>
+#include <string>
 #include "../../include/Scenes/WinScene.hpp"
 #include "../../include/Utils/Constants.hpp"
 
 WinScene::WinScene() :
     winText_(sf::Text(font_)),
     congratulationsText_(sf::Text(font_)),
+    timeText_(sf::Text(font_)),
     levelRestartText_(sf::Text(font_)),
     levelSelectorText_(sf::Text(font_)),
     levelRestartButton_(sf::RectangleShape()),
@@ -45,11 +47,22 @@ void WinScene::SetupUI() {
         Constants::WINDOW_HEIGHT / 2 - 20
     ));
     
+    timeText_.setFont(font_);
+    timeText_.setString("Time: 0.00s");
+    timeText_.setCharacterSize(28);
+    timeText_.setFillColor(sf::Color::Yellow);
+    
+    sf::FloatRect timeBounds = timeText_.getLocalBounds();
+    timeText_.setPosition(sf::Vector2f(
+        (Constants::WINDOW_WIDTH - timeBounds.size.x) / 2 - timeBounds.position.x,
+        Constants::WINDOW_HEIGHT / 2 + 20
+    ));
+    
     levelRestartButton_.setSize(sf::Vector2f(200, 60));
     levelRestartButton_.setFillColor(sf::Color(34, 139, 34));
     levelRestartButton_.setPosition(sf::Vector2f(
         (Constants::WINDOW_WIDTH - 200) / 2,
-        Constants::WINDOW_HEIGHT / 2 + 30
+        Constants::WINDOW_HEIGHT / 2 + 60
     ));
     
     levelRestartText_.setFont(font_);
@@ -69,7 +82,7 @@ void WinScene::SetupUI() {
     levelSelectorButton_.setFillColor(sf::Color(180, 70, 130));
     levelSelectorButton_.setPosition(sf::Vector2f(
         (Constants::WINDOW_WIDTH - 200) / 2,
-        Constants::WINDOW_HEIGHT / 2 + 110
+        Constants::WINDOW_HEIGHT / 2 + 140
     ));
     
     levelSelectorText_.setFont(font_);
@@ -89,12 +102,33 @@ void WinScene::SetupUI() {
 void WinScene::Draw(sf::RenderWindow& window) {
     window.draw(winText_);
     window.draw(congratulationsText_);
+    window.draw(timeText_);
     window.draw(levelRestartButton_);
     window.draw(levelRestartText_);
     window.draw(levelSelectorButton_);
     window.draw(levelSelectorText_);
     
     Scene::Draw(window);
+}
+
+void WinScene::SetCompletionTime(float timeInSeconds) {
+    int minutes = static_cast<int>(timeInSeconds) / 60;
+    float seconds = timeInSeconds - (minutes * 60);
+    
+    std::string timeString;
+    if (minutes > 0) {
+        timeString = "Time: " + std::to_string(minutes) + ":" + std::to_string(static_cast<int>(seconds)) + "." + std::to_string(static_cast<int>((seconds - static_cast<int>(seconds)) * 100)) + "s";
+    } else {
+        timeString = "Time: " + std::to_string(static_cast<int>(seconds)) + "." + std::to_string(static_cast<int>((seconds - static_cast<int>(seconds)) * 100)) + "s";
+    }
+    
+    timeText_.setString(timeString);
+    
+    sf::FloatRect timeBounds = timeText_.getLocalBounds();
+    timeText_.setPosition(sf::Vector2f(
+        (Constants::WINDOW_WIDTH - timeBounds.size.x) / 2 - timeBounds.position.x,
+        Constants::WINDOW_HEIGHT / 2 + 20
+    ));
 }
 
 bool WinScene::IsLevelRestartButtonClicked(const sf::Vector2f& mousePos) const {
