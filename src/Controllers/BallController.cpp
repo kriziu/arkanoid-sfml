@@ -189,6 +189,11 @@ void BallController::LaunchBall() {
     
     ball->SetAttachedToPaddle(false);
     ball->SetVelocity(0, -currentSpeed_);
+    
+    Message ballLaunchedMessage;
+    ballLaunchedMessage.type = MessageType::BallLaunched;
+    ballLaunchedMessage.sender = this;
+    MessageBus::Publish(ballLaunchedMessage);
 }
 
 void BallController::HandleBrickCollisions() {

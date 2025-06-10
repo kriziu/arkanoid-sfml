@@ -3,20 +3,30 @@
 #include "../../include/Scenes/Scene.hpp"
 #include "../../include/Utils/SoundManager.hpp"
 
-LevelTrackerController::LevelTrackerController() : Controller() {}
+LevelTrackerController::LevelTrackerController() : Controller(), timingStarted_(false) {}
 
 LevelTrackerController::~LevelTrackerController() {
     MessageBus::Unsubscribe(MessageType::BrickDestroyed, this);
+    MessageBus::Unsubscribe(MessageType::BallLaunched, this);
 }
 
 void LevelTrackerController::Initialize() {
-    levelStartTime_ = std::chrono::steady_clock::now();
+    timingStarted_ = false;
     MessageBus::Subscribe(MessageType::BrickDestroyed, this,
         [this](const Message& msg) { HandleBrickDestroyed(msg); });
+    MessageBus::Subscribe(MessageType::BallLaunched, this,
+        [this](const Message& msg) { HandleBallLaunched(msg); });
 }
 
 void LevelTrackerController::HandleBrickDestroyed(const Message& message) {
     CheckWinCondition();
+}
+
+void LevelTrackerController::HandleBallLaunched(const Message& message) {
+    if (!timingStarted_) {
+        levelStartTime_ = std::chrono::steady_clock::now();
+        timingStarted_ = true;
+    }
 }
 
 void LevelTrackerController::CheckWinCondition() {
@@ -25,7 +35,7 @@ void LevelTrackerController::CheckWinCondition() {
     if (remainingBreakableBricks == 0) {
         SoundManager::PlaySound("win");
         
-        float elapsedTime = GetElapsedTime();
+        float elapsedTime = timingStarted_ ? GetElapsedTime() : 0.0f;
         
         Message levelCompleteMessage;
         levelCompleteMessage.type = MessageType::LevelComplete;
@@ -52,6 +62,8 @@ int LevelTrackerController::CountBreakableBricks() {
 }
 
 float LevelTrackerController::GetElapsedTime() const {
+    if (!timingStarted_) return 0.0f;
+    
     auto currentTime = std::chrono::steady_clock::now();
     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(currentTime - levelStartTime_);
     return duration.count() / 1000.0f;
