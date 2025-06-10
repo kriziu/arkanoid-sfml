@@ -14,7 +14,7 @@ _Informatyka niestacjonarna, 1 rok, 2 semestr_
 
 ### Cel
 
-Celem projektu było stworzenie gry typu Arkanoid przy użyciu biblioteki SFML. Projekt opiera się na architekturze actor-controller z systemem komunikacji między obiektami.
+Celem projektu było stworzenie gry typu Arkanoid przy użyciu biblioteki SFML. Projekt opiera się na architekturze Scene-Controller-Actor z systemem komunikacji między obiektami.
 
 ### Założenia
 
@@ -22,9 +22,9 @@ Celem projektu było stworzenie gry typu Arkanoid przy użyciu biblioteki SFML. 
 
 - Obsługa kolizji piłki z otoczeniem i paletką
 
-- Sterowanie paletką za pomocą klawiatury lub myszy
+- Sterowanie paletką za pomocą myszy
 
-- System punktacji oraz ekran końca gry
+- System punktacji na bazie czasu oraz ekran końca gry
 
 - Implementacja w C++17 z użyciem SFML
 
@@ -40,13 +40,13 @@ Celem projektu było stworzenie gry typu Arkanoid przy użyciu biblioteki SFML. 
 
 - System poziomów z ładowaniem plansz z plików `.level`
 
+- Edytor poziomów na podstawie plików tekstowych `.level`
+
 - Cegły o różnej wytrzymałości
 
 - System dźwięków: muzyka w tle i efekty dźwiękowe
 
 - System scen: menu główne, gra, ekran końca
-
-- Edytor poziomów na podstawie plików tekstowych
 
 ### Architektura
 
@@ -54,7 +54,7 @@ Projekt podzielono na kilka głównych komponentów:
 
 #### Core
 
-Główny kontroler zarządzający grą oraz przełączaniem scen.
+Główny kontroler zarządzający grą i scenami.
 
 #### Scena
 
@@ -92,7 +92,7 @@ System komunikacji umożliwiający przesyłanie wiadomości między obiektami be
 
 - **SFML** 3.0.1
 
-## Instrukcja Uruchomienia
+## Instrukcja Uruchomienia (Dla systemu Linux/MacOS)
 
 ```bash
 # Klonowanie repozytorium
@@ -106,7 +106,8 @@ cmake  ..
 cmake  --build  .
 
 # Uruchamianie gry (upewnij się, że katalogi levels/ i assets/ są dostępne)
-./arkanoid-sfml
+cd build/bin
+./main
 ```
 
 ## Sterowanie
@@ -114,6 +115,8 @@ cmake  --build  .
 - **Mysz** — poruszanie paletką, obsługa menu
 
 - **Lewy przycisk myszy** — rozpoczęcie gry lub restart
+
+- **Escape** - pauza
 
 ## Zasady Gry
 
@@ -158,9 +161,9 @@ XX...XXX...XX
 
 ## Ciekawostki
 
-### Architektura Actor-Controller
+### Architektura Scene-Controller-Actor
 
-Zastosowanie wzorca actor-controller umożliwiło budowę gry, gdzie aktorzy mogą mieć przypisane różne kontrolery, co zwiększyło elastyczność rozwiązania.
+Zastosowanie wzorca Scene-Controller-Actor umożliwiło budowę gry, gdzie aktorzy i sceny mogą mieć przypisane różne kontrolery, co zwiększyło elastyczność rozwiązania.
 
 ### System MessageBus
 
@@ -176,7 +179,7 @@ Stworzenie prostego, czytelnego formatu tekstowego do definiowania poziomów oka
 
 ### Modularność kontrolerów
 
-Każdy typ obiektu ma dedykowany kontroler, co umożliwia łatwe dodawanie nowych typów cegieł czy mechanik bez modyfikacji istniejącego kodu.
+Każdy komponent (scena lub aktor) ma dedykowany kontroler, co umożliwia łatwe dodawanie nowych typów cegieł czy mechanik bez modyfikacji istniejącego kodu.
 
 ## Podsumowanie
 
@@ -196,7 +199,7 @@ Każdy typ obiektu ma dedykowany kontroler, co umożliwia łatwe dodawanie nowyc
 
 ### Wnioski
 
-- Wzorzec scena-actor-controller sprawdził się dobrze w projektowaniu gry.
+- Wzorzec Scene-Controller-Actor sprawdził się dobrze w projektowaniu gry.
 
 - SFML zapewniła wszystkie niezbędne funkcje do realizacji projektu.
 
@@ -206,7 +209,7 @@ Każdy typ obiektu ma dedykowany kontroler, co umożliwia łatwe dodawanie nowyc
 
 - Konfiguracja projektu w CMake.
 
-- Implementacja architektury sceny, aktora i kontrolera wymagała dokładnego zaplanowania i testów.
+- Implementacja architektury Scene-Controller-Actor wymagała dokładnego zaplanowania i testów.
 
 ## Propozycje Rozwoju
 
