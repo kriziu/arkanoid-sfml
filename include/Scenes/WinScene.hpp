@@ -16,6 +16,8 @@ public:
     void SetCompletionTime(float timeInSeconds);
 
 private:
+    void SetupUI();
+
     sf::Font font_;
     sf::Text winText_;
     sf::Text congratulationsText_;
@@ -24,7 +26,4 @@ private:
     sf::RectangleShape levelRestartButton_;
     sf::Text levelSelectorText_;
     sf::RectangleShape levelSelectorButton_;
-    bool fontLoaded_;
-    
-    void SetupUI();
 };

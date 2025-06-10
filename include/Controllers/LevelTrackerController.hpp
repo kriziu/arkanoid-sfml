@@ -17,11 +17,11 @@ private:
     void HandleGameResumed(const Message& message);
     void CheckWinCondition();
     int CountBreakableBricks();
+    float GetElapsedTime() const;
     
     std::chrono::steady_clock::time_point levelStartTime_;
     std::chrono::steady_clock::time_point pauseStartTime_;
     std::chrono::duration<float> totalPausedTime_;
     bool timingStarted_;
     bool isPaused_;
-    float GetElapsedTime() const;
 }; 

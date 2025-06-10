@@ -14,6 +14,8 @@ public:
     bool IsLevelSelectorButtonClicked(const sf::Vector2f& mousePos) const;
 
 private:
+    void SetupUI();
+
     sf::Font font_;
     sf::Text gameOverText_;
     sf::Text restartText_;
@@ -21,7 +23,4 @@ private:
     sf::Text tryAgainText_;
     sf::RectangleShape levelSelectorButton_;
     sf::Text levelSelectorText_;
-    bool fontLoaded_;
-    
-    void SetupUI();
 }; 
