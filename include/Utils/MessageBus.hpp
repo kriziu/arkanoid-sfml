@@ -11,7 +11,9 @@ enum class MessageType {
     LevelSelected,
     ShowLevelSelector,
     LevelComplete,
-    BallLaunched
+    BallLaunched,
+    GamePaused,
+    GameResumed
 };
 
 struct Message {

@@ -9,6 +9,7 @@ GameplaySceneController::~GameplaySceneController() {
     MessageBus::Unsubscribe(MessageType::LevelRestarted, this);
     MessageBus::Unsubscribe(MessageType::LevelSelected, this);
     MessageBus::Unsubscribe(MessageType::LevelComplete, this);
+    MessageBus::Unsubscribe(MessageType::GameResumed, this);
 }
 
 void GameplaySceneController::Initialize() {
@@ -23,6 +24,24 @@ void GameplaySceneController::Initialize() {
 
     MessageBus::Subscribe(MessageType::LevelComplete, this,
         [this](const Message& msg) { HandleLevelComplete(msg); });
+        
+    MessageBus::Subscribe(MessageType::GameResumed, this,
+        [this](const Message& msg) { HandleGameResumed(msg); });
+}
+
+void GameplaySceneController::HandleEvent(const sf::Event& event) {
+    GameplayScene* gameplayScene = GetScene<GameplayScene>();
+    
+    if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>()) {
+        if (keyPressed->code == sf::Keyboard::Key::Escape) {
+            Message pauseMessage;
+            pauseMessage.type = MessageType::GamePaused;
+            pauseMessage.sender = this;
+            MessageBus::Publish(pauseMessage);
+
+            gameplayScene->SetActive(false);
+        }
+    }
 }
 
 void GameplaySceneController::HandleGameOver(const Message& message) {
@@ -53,4 +72,9 @@ void GameplaySceneController::HandleLevelSelected(const Message& message) {
 void GameplaySceneController::HandleLevelComplete(const Message& message) {
     GameplayScene* gameplayScene = GetScene<GameplayScene>();
     gameplayScene->SetActive(false);
+}
+
+void GameplaySceneController::HandleGameResumed(const Message& message) {
+    GameplayScene* gameplayScene = GetScene<GameplayScene>();
+    gameplayScene->SetActive(true);
 }
