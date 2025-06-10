@@ -9,7 +9,11 @@ enum class MessageType {
     LevelRestarted,
     GameOver,
     LevelSelected,
-    ShowLevelSelector
+    ShowLevelSelector,
+    LevelComplete,
+    BallLaunched,
+    GamePaused,
+    GameResumed
 };
 
 struct Message {
