@@ -8,6 +8,7 @@ GameplaySceneController::~GameplaySceneController() {
     MessageBus::Unsubscribe(MessageType::GameOver, this);
     MessageBus::Unsubscribe(MessageType::LevelRestarted, this);
     MessageBus::Unsubscribe(MessageType::LevelSelected, this);
+    MessageBus::Unsubscribe(MessageType::LevelComplete, this);
 }
 
 void GameplaySceneController::Initialize() {
@@ -19,6 +20,9 @@ void GameplaySceneController::Initialize() {
 
     MessageBus::Subscribe(MessageType::LevelSelected, this, 
         [this](const Message& msg) { HandleLevelSelected(msg); });
+
+    MessageBus::Subscribe(MessageType::LevelComplete, this,
+        [this](const Message& msg) { HandleLevelComplete(msg); });
 }
 
 void GameplaySceneController::HandleGameOver(const Message& message) {
@@ -44,4 +48,9 @@ void GameplaySceneController::HandleLevelSelected(const Message& message) {
     gameplayScene->SetLevelFilename(levelFilename);
     gameplayScene->Reset();
     gameplayScene->SetActive(true);
+}
+
+void GameplaySceneController::HandleLevelComplete(const Message& message) {
+    GameplayScene* gameplayScene = GetScene<GameplayScene>();
+    gameplayScene->SetActive(false);
 }

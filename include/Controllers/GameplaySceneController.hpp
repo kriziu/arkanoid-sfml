@@ -17,4 +17,5 @@ private:
     void HandleGameOver(const Message& message);
     void HandleLevelRestarted(const Message& message);
     void HandleLevelSelected(const Message& message);
+    void HandleLevelComplete(const Message& message);
 }; 
