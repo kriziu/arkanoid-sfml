@@ -43,6 +43,7 @@ private:
     sf::RectangleShape prevPageButton_;
     sf::Text nextPageText_;
     sf::Text prevPageText_;
+    sf::Text creditsText_;
     
     static const int GRID_COLS = 3;
     static const int GRID_ROWS = 2;
