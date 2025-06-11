@@ -65,20 +65,37 @@ Reprezentacja ekranu gry zawierająca wszystkie aktywne obiekty.
 Obiekty gry posiadające pozycję, rozmiar i wizualizację:
 
 - **Ball** — piłka
-
 - **Paddle** — paletka
-
 - **Brick** — cegły
 
 #### Kontrolery
 
 Logika przypisana do aktorów lub scen:
 
+**Kontrolery aktorów:**
+
 - **BallController** — ruch piłki i wykrywanie kolizji
-
 - **PaddleController** — obsługa sterowania paletką
-
 - **BrickController** — zarządzanie stanem cegieł
+
+**Kontrolery scen:**
+
+- **GameplaySceneController** — zarządzanie logiką rozgrywki
+- **LevelSelectorSceneController** — obsługa menu wyboru poziomu
+- **GameOverSceneController** — obsługa ekranu końca gry
+- **WinSceneController** — obsługa ekranu zwycięstwa
+- **PauseSceneController** — obsługa ekranu pauzy
+- **LevelTrackerController** — śledzenie postępu poziomów
+
+#### Sceny
+
+Różne ekrany gry i stany aplikacji:
+
+- **LevelSelectorScene** — menu główne z wyborem poziomu
+- **GameplayScene** — główna scena rozgrywki
+- **GameOverScene** — ekran porażki
+- **WinScene** — ekran zwycięstwa po ukończeniu poziomu
+- **PauseScene** — ekran pauzy
 
 #### MessageBus
 
